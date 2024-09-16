@@ -131,3 +131,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+########### Data for P1 - to be downloaded from Zenodo ########
+Code/P1/OfflineSVD
+Code/P1/CompressedDataset
+Code/P1/OfflineSVD/*.data
+Code/P1/SHRED
+Code/P1/Test_results
+Code/P1/GEIM
