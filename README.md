@@ -28,3 +28,6 @@ On the other hand, the folder `Code` is divided into subfolders corresponding to
 | | MSFR-ULOFF D1 |
 |---|-----|
 | P1 | x |
+
+## How to execute
+Clone or download the repository, download the correspondent datasets and move in the same directory of the notebooks to execute.
