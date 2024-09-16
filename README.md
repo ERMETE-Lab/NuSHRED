@@ -25,6 +25,6 @@ The [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce) is used as s
 In the folder `shred`, the modules for the implementation of the Shallow Recurrent Decoder (SHRED) network from [pyshred](https://github.com/Jan-Williams/pyshred) are reported.
 On the other hand, the folder `Code` is divided into subfolders corresponding to the papers regarding the application of SHRED to nuclear reactor concepts; the dataset are associated as follows
 
-| | Dataset D1 |
+| | MSFR-ULOFF D1 |
 |---|-----|
 | P1 | x |
