@@ -4,11 +4,11 @@ This repository collects the codes regarding the application of the **Shallow RE
 
 In particular, this repository serves as complementary code to the following paper:
 
-- [P1] S. Riva, C. Introini, A. Cammi, and J. N. Kutz, “Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors,” [ArXiV](https://arxiv.org/), 2024.
+- [P1] Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2024). Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors. arXiv [Physics.Ins-Det]. Retrieved from http://arxiv.org/abs/2409.12550
 
-The simulation data (compressed) are available on Zenodo:
+The simulation data (compressed) are available on Zenodo [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13789585.svg)](https://doi.org/10.5281/zenodo.13789585)
 
-- [D1] Molten Salt Fast Reactor (MSFR) in the accidental scenario Unprotected Loss Of Fuel Flow (ULOFF): [compressed data](https://zenodo.org/)
+- [D1] Molten Salt Fast Reactor (MSFR) in the accidental scenario Unprotected Loss Of Fuel Flow (ULOFF)
 
 ---
 
@@ -31,3 +31,12 @@ On the other hand, the folder `Code` is divided into subfolders corresponding to
 
 ## How to execute
 Clone or download the repository, download the correspondent datasets and move in the same directory of the notebooks to execute.
+
+The main requirements to execute the notebooks are *pytorch* and *pyforce*, see instructions [here](https://ermete-lab.github.io/ROSE-pyforce/installation.html#set-up-a-conda-environment-for-pyforce); other packages will be installed as part of the requirements.
+
+
+## Contact Information
+
+If interested, please contact stefano.riva@polimi.it, carolina.introini@polimi.it, antonio.cammi@polimi.it, kutz@uw.edu.
+
+In case of any problems, refer to Github Issues of this repository.
