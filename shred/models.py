@@ -3,26 +3,38 @@ from torch.utils.data import DataLoader
 import numpy as np
 
 class SHRED(torch.nn.Module):
-    '''SHRED model accepts input size (number of sensors), output size (dimension of high-dimensional spatio-temporal state, hidden_size, number of LSTM layers,
-    size of fully-connected layers, and dropout parameter'''
+    '''
+    SHRED model accepts:
+    -   input size (e.g., number of sensors), 
+    -   output size (dimension of low or high-dimensional state,
+    -   hidden_size and number of LSTM layers,
+    -   l1 and l2 represents the size of the decoder network.
+    
+    '''
+    
     def __init__(self, input_size, output_size, hidden_size=64, hidden_layers=2, l1=350, l2=400, dropout=0.0):
         super(SHRED,self).__init__()
 
+        # Definition of the LSTM: learning temporal dynamics
         self.lstm = torch.nn.LSTM(input_size=input_size, hidden_size=hidden_size,
                                   num_layers=hidden_layers, batch_first=True)
         
+        # Define layers of the decoder
         self.linear1 = torch.nn.Linear(hidden_size, l1)
         self.linear2 = torch.nn.Linear(l1, l2)
         self.linear3 = torch.nn.Linear(l2, output_size)
 
+        # Dropout
         self.dropout = torch.nn.Dropout(dropout)
 
+        # Store the hidden size and number of layers
         self.hidden_layers = hidden_layers
         self.hidden_size = hidden_size
-
-        
-
+    
     def forward(self, x):
+        ''' 
+        Definition of the forward function for the SHRED network
+        '''
         
         h_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float)
         c_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float)
@@ -30,9 +42,11 @@ class SHRED(torch.nn.Module):
             h_0 = h_0.cuda()
             c_0 = c_0.cuda()
 
+        # Compute the output of the LSTM and the last output of the time series is inputed to the decoder network
         _, (h_out, _) = self.lstm(x, (h_0, c_0))
         h_out = h_out[-1].view(-1, self.hidden_size)
 
+        # Pass the output of the LSTM to the decoder network, and return the prediction
         output = self.linear1(h_out)
         output = self.dropout(output)
         output = torch.nn.functional.relu(output)
@@ -72,10 +86,18 @@ class SDN(torch.nn.Module):
 
         return output
 
-def fit(model, train_dataset, valid_dataset, batch_size=64, num_epochs=4000, lr=1e-3, verbose=False, patience=5):
-    '''Function for training SHRED and SDN models'''
+def fit(model, train_dataset, valid_dataset, 
+        criterion = torch.nn.MSELoss(), 
+        batch_size=64, num_epochs=4000, 
+        lr=1e-3, 
+        verbose=False, patience=5):
+    '''
+    Function for training SHRED and SDN models.
+    Accepts the model (`torch.nn.Module`), training dataset and validation dataset.
+    The default loss function is `torch.nn.MSELoss()`, the default batch size is 64, the default number of epochs is 4000, the default learning rate is 1e-3.
+    
+    '''
     train_loader = DataLoader(train_dataset, shuffle=True, batch_size=batch_size)
-    criterion = torch.nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     val_error_list = []
     patience_counter = 0
@@ -99,15 +121,15 @@ def fit(model, train_dataset, valid_dataset, batch_size=64, num_epochs=4000, lr=
                 val_error_list.append(val_error)
 
             if verbose == True:
-                print('Training epoch ' + str(epoch))
-                print('Error ' + str(val_error_list[-1]))
+                print('Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]), end="\r")
 
             if val_error == torch.min(torch.tensor(val_error_list)):
                 patience_counter = 0
                 best_params = model.state_dict()
+                if verbose == True:
+                    print('Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]))
             else:
                 patience_counter += 1
-
 
             if patience_counter == patience:
                 model.load_state_dict(best_params)
