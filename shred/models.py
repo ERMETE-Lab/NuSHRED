@@ -121,13 +121,11 @@ def fit(model, train_dataset, valid_dataset,
                 val_error_list.append(val_error)
 
             if verbose == True:
-                print('Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]), end="\r")
+                print('    Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]), end="\r")
 
             if val_error == torch.min(torch.tensor(val_error_list)):
                 patience_counter = 0
                 best_params = model.state_dict()
-                if verbose == True:
-                    print('Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]))
             else:
                 patience_counter += 1
 
@@ -136,6 +134,9 @@ def fit(model, train_dataset, valid_dataset,
                 return torch.tensor(val_error_list).cpu()
 
     model.load_state_dict(best_params)
+    if verbose == True:
+        print('    Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]))
+        
     return torch.tensor(val_error_list).detach().cpu().numpy()
 
 
