@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$title$</title>
+    <style>
+        :root {
+            --main-bg-color: #121212;  /* Dark background for better readability */
+            --sidebar-bg: #1f1f1f;  /* Slightly lighter gray for sidebar */
+            --text-color: #e0e0e0;  /* Lighter text for dark mode */
+            --link-color: #80cbc4;  /* Soft light blue for links */
+            --highlight-color: #00838f; /* Highlighted text color */
+            --code-bg: #2c2c2c;  /* Dark code background */
+            --table-border-color: #333; /* Table borders */
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --main-bg-color: #ffffff;  /* Light background for light mode */
+                --sidebar-bg: #f5f5f5;  /* Light gray for sidebar */
+                --text-color: #333333;  /* Dark text for light mode */
+                --link-color: #0077cc;  /* Blue links for light mode */
+                --highlight-color: #2980b9; /* Highlighted text color */
+                --code-bg: #f4f4f4;  /* Light gray code background */
+                --table-border-color: #ccc; /* Lighter borders */
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            line-height: 1.6;
+        }
+
+        #sidebar {
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            padding: 20px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--table-border-color);
+            overflow-y: auto;
+        }
+
+        #sidebar h2 {
+            font-size: 1.3em;
+            color: var(--link-color);
+            margin-bottom: 15px;
+        }
+
+        #sidebar a {
+            display: block;
+            padding: 5px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        #sidebar a:hover {
+            text-decoration: underline;
+        }
+
+        #content {
+            margin-left: 270px;
+            padding: 40px;
+            width: calc(100% - 270px);
+        }
+
+        h1, h2, h3 {
+            color: var(--highlight-color);
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: monospace;
+            background-color: var(--code-bg);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        blockquote {
+            background-color: var(--sidebar-bg);
+            padding: 10px;
+            border-left: 5px solid var(--link-color);
+            margin: 15px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid var(--table-border-color);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            #content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar (Table of Contents) -->
+    <nav id="sidebar">
+        <h2>Table of Contents</h2>
+        <div id="toc"></div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="content">
+        <h1>$title$</h1>
+        <article>
+            $body$
+        </article>
+    </main>
+
+    <script>
+        // Generating Table of Contents dynamically based on the header tags
+        document.addEventListener("DOMContentLoaded", function () {
+            const toc = document.getElementById("toc");
+            const headers = document.querySelectorAll("h1, h2, h3");
+
+            headers.forEach((header, index) => {
+                if (header.id === "") {
+                    header.id = "section-" + index;
+                }
+                const link = document.createElement("a");
+                link.href = "#" + header.id;
+                link.textContent = header.textContent;
+                link.style.paddingLeft = (header.tagName === "H2" ? "10px" : header.tagName === "H3" ? "20px" : "0px");
+                toc.appendChild(link);
+            });
+        });
+    </script>
+
+</body>
+</html>
