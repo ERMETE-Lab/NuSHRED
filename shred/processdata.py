@@ -1,11 +1,22 @@
 import torch
-from scipy.io import loadmat
 import numpy as np
-import scipy.linalg
+import matplotlib.pyplot as plt
+import imageio
+from IPython.display import clear_output as clc
+from IPython.display import display
+
+mae = lambda datatrue, datapred: (datatrue - datapred).abs().mean()
+mse = lambda datatrue, datapred: (datatrue - datapred).pow(2).sum(axis = -1).mean()
+mre = lambda datatrue, datapred: ((datatrue - datapred).pow(2).sum(axis = -1).sqrt() / (datatrue).pow(2).sum(axis = -1).sqrt()).mean()
+num2p = lambda prob : ("%.2f" % (100*prob)) + "%"
+
 
 class TimeSeriesDataset(torch.utils.data.Dataset):
-    '''Takes input sequence of sensor measurements with shape (batch size, lags, num_sensors)
-    and corresponding measurments of high-dimensional state, return Torch dataset'''
+    '''
+    Input: sequence of input measurements with shape (ntrajectories, ntimes, ninput) and corresponding measurements of high-dimensional state with shape (ntrajectories, ntimes, noutput)
+    Output: Torch dataset
+    '''
+
     def __init__(self, X, Y):
         self.X = X
         self.Y = Y
@@ -17,30 +28,97 @@ class TimeSeriesDataset(torch.utils.data.Dataset):
     def __len__(self):
         return self.len
 
-def load_data(name):
-    '''Takes string denoting data name and returns the corresponding (N x m) array 
-    (N samples of m dimensional state)'''
-    if name == 'SST':
-        load_X = loadmat('Data/SST_data.mat')['Z'].T
-        mean_X = np.mean(load_X, axis=0)
-        sst_locs = np.where(mean_X != 0)[0]
-        return load_X[:, sst_locs]
 
-    if name == 'AO3':
-        load_X = np.load('Data/short_svd_O3.npy')
-        return load_X
+def Padding(data, lag):
+    '''
+    Extract time-series of lenght equal to lag from longer time series in data, whose dimension is (number of time series, sequence length, data shape)
+    '''
+    
+    data_out = torch.zeros(data.shape[0] * data.shape[1], lag, data.shape[2])
 
-    if name == 'ISO':
-        load_X = np.load('Data/numpy_isotropic.npy').reshape(-1, 350*350)
-        return load_X
+    for i in range(data.shape[0]):
+        for j in range(1, data.shape[1] + 1):
+            if j < lag:
+                data_out[i * data.shape[1] + j - 1, -j:] = data[i, :j]
+            else:
+                data_out[i * data.shape[1] + j - 1] = data[i, j - lag : j]
+
+    return data_out
 
 
-def qr_place(data_matrix, num_sensors):
-    '''Takes a (m x N) data matrix consisting of N samples of an m dimensional state and
-    number of sensors, returns QR placed sensors and U_r for the SVD X = U S V^T'''
-    u, s, v = np.linalg.svd(data_matrix, full_matrices=False)
-    rankapprox = u[:, :num_sensors]
-    q, r, pivot = scipy.linalg.qr(rankapprox.T, pivoting=True)
-    sensor_locs = pivot[:num_sensors]
-    return sensor_locs, rankapprox
+def multiplot(yts, plot, titles = None, fontsize = None, figsize = None, vertical = False, axis = False, save = False, name = "multiplot"):
+    """
+    Multi plot of different snapshots
+    Input: list of snapshots, related plot function, plot options, save option and save path
+    """
+    
+    plt.figure(figsize = figsize)
+    for i in range(len(yts)):
+        if vertical:
+            plt.subplot(len(yts), 1, i+1)
+        else:
+            plt.subplot(1, len(yts), i+1)
+        plot(yts[i])
+        plt.title(titles[i], fontsize = fontsize)
+        if not axis:
+            plt.axis('off')
+    
+    if save:
+    	plt.savefig(name.replace(".png", "") + ".png", transparent = True, bbox_inches='tight')
 
+
+def trajectory(yt, plot, title = None, fontsize = None, figsize = None, axis = False, save = False, name = 'gif'):
+    """
+    Trajectory gif
+    Input: trajectory with dimension (sequence length, data shape), related plot function for a snapshot, plot options, save option and save path
+    """
+
+    arrays = []
+        
+    for i in range(yt.shape[0]):
+        plt.figure(figsize = figsize)
+        plot(yt[i])
+        plt.title(title, fontsize = fontsize)
+        if not axis:
+            plt.axis('off')
+        fig = plt.gcf()
+        display(fig)
+        if save:
+            arrays.append(np.array(fig.canvas.renderer.buffer_rgba()))
+        plt.close()
+        clc(wait=True)
+
+    if save:
+        imageio.mimsave(name.replace(".gif", "") + ".gif", arrays)
+        
+
+def trajectories(yts, plot, titles = None, fontsize = None, figsize = None, vertical = False, axis = False, save = False, name = 'gif'):
+    """
+    Gif of different trajectories
+    Input: list of trajectories with dimensions (sequence length, data shape), plot function for a snapshot, plot options, save option and save path
+    """
+
+    arrays = []
+
+    for i in range(yts[0].shape[0]):
+
+        plt.figure(figsize = figsize)
+        for j in range(len(yts)):
+            if vertical:
+                plt.subplot(len(yts), 1, j+1)
+            else:
+                plt.subplot(1, len(yts), j+1)
+            plot(yts[j][i])
+            plt.title(titles[j], fontsize = fontsize)
+            if not axis:
+                plt.axis('off')
+
+        fig = plt.gcf()
+        display(fig)
+        if save:
+            arrays.append(np.array(fig.canvas.renderer.buffer_rgba()))
+        plt.close()
+        clc(wait=True)
+
+    if save:
+        imageio.mimsave(name.replace(".gif", "") + ".gif", arrays)

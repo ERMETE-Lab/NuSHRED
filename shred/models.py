@@ -1,168 +1,177 @@
 import torch
 from torch.utils.data import DataLoader
-import numpy as np
+from copy import deepcopy
+from IPython.display import clear_output as clc
+from .processdata import mse, mre, num2p
 
 class SHRED(torch.nn.Module):
-    '''
-    SHRED model accepts:
-    -   input size (e.g., number of sensors), 
-    -   output size (dimension of low or high-dimensional state,
-    -   hidden_size and number of LSTM layers,
-    -   l1 and l2 represents the size of the decoder network.
-    
-    '''
-    
-    def __init__(self, input_size, output_size, hidden_size=64, hidden_layers=2, l1=350, l2=400, dropout=0.0):
+
+    def __init__(self, input_size, output_size, hidden_size = 64, hidden_layers = 2, decoder_sizes = [350, 400], dropout = 0.0):
+        '''
+        SHRED model definition
+        
+        
+        Inputs
+        	input size (e.g. number of sensors)
+        	output size (e.g. full-order variable dimension)
+        	size of LSTM hidden layers (default to 64)
+        	number of LSTM hidden layers (default to 2)
+        	list of decoder layers sizes (default to [350, 400])
+        	dropout parameter (default to 0)
+        '''
+            
         super(SHRED,self).__init__()
 
-        # Definition of the LSTM: learning temporal dynamics
-        self.lstm = torch.nn.LSTM(input_size=input_size, hidden_size=hidden_size,
-                                  num_layers=hidden_layers, batch_first=True)
+        self.lstm = torch.nn.LSTM(input_size = input_size,
+                                  hidden_size = hidden_size,
+                                  num_layers = hidden_layers,
+                                  batch_first=True)
         
-        # Define layers of the decoder
-        self.linear1 = torch.nn.Linear(hidden_size, l1)
-        self.linear2 = torch.nn.Linear(l1, l2)
-        self.linear3 = torch.nn.Linear(l2, output_size)
+        self.decoder = torch.nn.ModuleList()
+        decoder_sizes.insert(0, hidden_size)
+        decoder_sizes.append(output_size)
 
-        # Dropout
-        self.dropout = torch.nn.Dropout(dropout)
+        for i in range(len(decoder_sizes)-1):
+            self.decoder.append(torch.nn.Linear(decoder_sizes[i], decoder_sizes[i+1]))
+            if i != len(decoder_sizes)-2:
+                self.decoder.append(torch.nn.Dropout(dropout))
+                self.decoder.append(torch.nn.ReLU())
 
-        # Store the hidden size and number of layers
         self.hidden_layers = hidden_layers
         self.hidden_size = hidden_size
-    
+
     def forward(self, x):
-        ''' 
-        Definition of the forward function for the SHRED network
-        '''
         
-        h_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float)
-        c_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float)
+        h_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float).to(x.device)
+        c_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float).to(x.device)
         if next(self.parameters()).is_cuda:
             h_0 = h_0.cuda()
             c_0 = c_0.cuda()
 
-        # Compute the output of the LSTM and the last output of the time series is inputed to the decoder network
-        _, (h_out, _) = self.lstm(x, (h_0, c_0))
-        h_out = h_out[-1].view(-1, self.hidden_size)
+        _, (output, _) = self.lstm(x, (h_0, c_0))
+        output = output[-1].view(-1, self.hidden_size)
 
-        # Pass the output of the LSTM to the decoder network, and return the prediction
-        output = self.linear1(h_out)
-        output = self.dropout(output)
-        output = torch.nn.functional.relu(output)
-
-        output = self.linear2(output)
-        output = self.dropout(output)
-        output = torch.nn.functional.relu(output)
-    
-        output = self.linear3(output)
+        for layer in self.decoder:
+            output = layer(output)
 
         return output
 
+    def freeze(self):
 
-class SDN(torch.nn.Module):
-    '''SDN model accepts input size (number of sensors), output size (dimension of high-dimensional spatio-temporal state,
-    size of fully-connected layers, and dropout parameter'''
-    def __init__(self, input_size, output_size, l1=350, l2=400, dropout=0.0):
-        super(SDN,self).__init__()
+        self.eval()
         
-        self.linear1 = torch.nn.Linear(input_size, l1)
-        self.linear2 = torch.nn.Linear(l1, l2)
-        self.linear3 = torch.nn.Linear(l2, output_size)
+        for param in self.parameters():
+            param.requires_grad = False
 
-        self.dropout = torch.nn.Dropout(dropout)
+    def unfreeze(self):
 
-    def forward(self, x):
-
-        output = self.linear1(x)
-        output = self.dropout(output)
-        output = torch.nn.functional.relu(output)
-
-        output = self.linear2(output)
-        output = self.dropout(output)
-        output = torch.nn.functional.relu(output)
+        self.train()
         
-        output = self.linear3(output)
+        for param in self.parameters():
+            param.requires_grad = True
 
-        return output
-
-def fit(model, train_dataset, valid_dataset, 
-        criterion = torch.nn.MSELoss(), 
-        batch_size=64, num_epochs=4000, 
-        lr=1e-3, 
-        verbose=False, patience=5):
+def fit(model, train_dataset, valid_dataset, batch_size = 64, epochs = 4000, optim = torch.optim.Adam, lr = 1e-3, verbose = False, patience = 5):
     '''
-    Function for training SHRED and SDN models.
-    Accepts the model (`torch.nn.Module`), training dataset and validation dataset.
-    The default loss function is `torch.nn.MSELoss()`, the default batch size is 64, the default number of epochs is 4000, the default learning rate is 1e-3.
+    Neural networks training
     
+    Inputs
+    	model (`torch.nn.Module`)
+    	training dataset (`torch.Tensor`)
+    	validation dataset (`torch.Tensor`)
+    	batch size (default to 64)
+    	number of epochs (default to 4000)
+    	optimizer (default to `torch.optim.Adam`)
+    	learning rate (default to 0.001)
+    	verbose parameter (default to False) 
+    	patience parameter (default to 5)
     '''
-    train_loader = DataLoader(train_dataset, shuffle=True, batch_size=batch_size)
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    val_error_list = []
+
+    train_loader = DataLoader(train_dataset, shuffle = True, batch_size = batch_size)
+    optimizer = optim(model.parameters(), lr = lr)
+
+    train_error_list = []
+    valid_error_list = []
     patience_counter = 0
     best_params = model.state_dict()
-    for epoch in range(1, num_epochs + 1):
+
+    for epoch in range(1, epochs + 1):
         
         for k, data in enumerate(train_loader):
             model.train()
-            outputs = model(data[0])
-            optimizer.zero_grad()
-            loss = criterion(outputs, data[1])
-            loss.backward()
-            optimizer.step()
+            def closure():
+                outputs = model(data[0])
+                optimizer.zero_grad()
+                loss = mse(outputs, data[1])
+                loss.backward()
+                return loss
+            optimizer.step(closure)
 
-        if epoch % 20 == 0 or epoch == 1:
-            model.eval()
-            with torch.no_grad():
-                val_outputs = model(valid_dataset.X)
-                val_error = torch.linalg.norm(val_outputs - valid_dataset.Y)
-                val_error = val_error / torch.linalg.norm(valid_dataset.Y)
-                val_error_list.append(val_error)
+        model.eval()
+        with torch.no_grad():
+            train_error = mre(train_dataset.Y, model(train_dataset.X))
+            valid_error = mre(valid_dataset.Y, model(valid_dataset.X))
+            train_error_list.append(train_error)
+            valid_error_list.append(valid_error)
 
+        if verbose == True:
+            print("Epoch "+ str(epoch) + ": Training loss = " + num2p(train_error_list[-1]) + " \t Validation loss = " + num2p(valid_error_list[-1]) + " "*10, end = "\r")
+
+        if valid_error == torch.min(torch.tensor(valid_error_list)):
+            patience_counter = 0
+            best_params = deepcopy(model.state_dict())
+        else:
+            patience_counter += 1
+
+        if patience_counter == patience:
+            model.load_state_dict(best_params)
+            train_error = mre(train_dataset.Y, model(train_dataset.X))
+            valid_error = mre(valid_dataset.Y, model(valid_dataset.X))
+            
             if verbose == True:
-                print('    Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]), end="\r")
-
-            if val_error == torch.min(torch.tensor(val_error_list)):
-                patience_counter = 0
-                best_params = model.state_dict()
-            else:
-                patience_counter += 1
-
-            if patience_counter == patience:
-                model.load_state_dict(best_params)
-                return torch.tensor(val_error_list).cpu()
-
+                print("Training done: Training loss = " + num2p(train_error) + " \t Validation loss = " + num2p(valid_error))
+         
+            return torch.tensor(train_error_list).detach().cpu().numpy(), torch.tensor(valid_error_list).detach().cpu().numpy()
+    
     model.load_state_dict(best_params)
+    train_error = mre(train_dataset.Y, model(train_dataset.X))
+    valid_error = mre(valid_dataset.Y, model(valid_dataset.X))
+    
     if verbose == True:
-        print('    Training epoch ' + str(epoch)+': error = {:.6f}'.format(val_error_list[-1]))
-        
-    return torch.tensor(val_error_list).detach().cpu().numpy()
+    	print("Training done: Training loss = " + num2p(train_error) + " \t Validation loss = " + num2p(valid_error))
+    
+    return torch.tensor(train_error_list).detach().cpu().numpy(), torch.tensor(valid_error_list).detach().cpu().numpy()
+ 
+def forecast(forecaster, input_data, steps, nsensors):
+    '''
+    Forecast time series in time
+    Inputs
+    	forecaster model (`torch.nn.Module`)
+        starting time series of dimension (ntrajectories, lag, nsensors+nparams)
+    	number of forecasting steps
+        number of sensors
+    Outputs
+        forecast of the time series in time
+    '''   
+
+    forecast = []
+    for i in range(steps):
+        forecast.append(forecaster(input_data))
+        temp = input_data.clone()
+        input_data[:,:-1] = temp[:,1:]
+        input_data[:,-1, :nsensors] = forecast[i]
+
+    return torch.stack(forecast, 1)
 
 
-def forecast(forecaster, reconstructor, test_dataset):
-    '''Takes model and corresponding test dataset, returns tensor containing the
-    inputs to generate the first forecast and then all subsequent forecasts 
-    throughout the test dataset.'''
-    initial_in = test_dataset.X[0:1].clone()
-    vals = []
-    for i in range(0, test_dataset.X.shape[1]):
-        vals.append(initial_in[0, i, :].detach().cpu().clone().numpy())
 
-    for i in range(len(test_dataset.X)):
-        scaled_output = forecaster(initial_in).detach().cpu().numpy()
 
-        vals.append(scaled_output.reshape(test_dataset.X.shape[2]))
-        temp = initial_in.clone()
-        initial_in[0,:-1] = temp[0,1:]
-        initial_in[0,-1] = torch.tensor(scaled_output)
 
-    device = 'cuda' if next(reconstructor.parameters()).is_cuda else 'cpu'
-    forecasted_vals = torch.tensor(np.array(vals), dtype=torch.float32).to(device)
-    reconstructions = []
-    for i in range(len(forecasted_vals) - test_dataset.X.shape[1]):
-        recon = reconstructor(forecasted_vals[i:i+test_dataset.X.shape[1]].reshape(1, test_dataset.X.shape[1], 
-                                    test_dataset.X.shape[2])).detach().cpu().numpy()
-        reconstructions.append(recon)
-    reconstructions = np.array(reconstructions)
-    return forecasted_vals, reconstructions
+
+
+
+
+
+
+
+
+
