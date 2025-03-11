@@ -6,24 +6,23 @@
     <title>$title$</title>
     <style>
         :root {
-            --main-bg-color: #121212;  /* Dark background for better readability */
-            --sidebar-bg: #1f1f1f;  /* Slightly lighter gray for sidebar */
-            --text-color: #e0e0e0;  /* Lighter text for dark mode */
-            --link-color: #80cbc4;  /* Soft light blue for links */
-            --highlight-color: #00838f; /* Highlighted text color */
-            --code-bg: #2c2c2c;  /* Dark code background */
-            --table-border-color: #333; /* Table borders */
+            --main-bg-color: #fffcfc;  /* Dark background for better readability */
+            --sidebar-bg: #f2dfdf;  /* Slightly lighter gray for sidebar */
+            --text-color: #070707;  /* Lighter text for dark mode */
+            --link-color: #f90000;  /* Soft light blue for links */
+            --highlight-color: #3b00fe; /* Highlighted text color */
+            --code-bg: #00b1fc;  /* Dark code background */
+            --table-border-color: #000000; /* Table borders */
         }
 
         @media (prefers-color-scheme: light) {
             :root {
                 --main-bg-color: #ffffff;  /* Light background for light mode */
                 --sidebar-bg: #f5f5f5;  /* Light gray for sidebar */
-                --text-color: #333333;  /* Dark text for light mode */
+                --text-color: #ff0404;  /* Dark text for light mode */
                 --link-color: #0077cc;  /* Blue links for light mode */
                 --highlight-color: #2980b9; /* Highlighted text color */
                 --code-bg: #f4f4f4;  /* Light gray code background */
-                --table-border-color: #ccc; /* Lighter borders */
             }
         }
 
@@ -39,7 +38,7 @@
 
         #sidebar {
             position: fixed;
-            width: 250px;
+            width: 200px;
             height: 100vh;
             padding: 20px;
             background-color: var(--sidebar-bg);
@@ -121,7 +120,7 @@
         }
 
         th {
-            background-color: #333;
+            background-color: #0070f1;
         }
 
         /* Responsive Design */
@@ -147,7 +146,7 @@
 
     <!-- Sidebar (Table of Contents) -->
     <nav id="sidebar">
-        <h2>Table of Contents</h2>
+        <!-- <h2>Table of Contents</h2> -->
         <div id="toc"></div>
     </nav>
 
