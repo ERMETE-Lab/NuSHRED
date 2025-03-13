@@ -77,7 +77,7 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 2️⃣ **Download the datasets** and move them into the appropriate directory.
 
 3️⃣ **Install the required dependencies:**
-   - Main dependencies: *pytorch*, *numpy*, *scikit-learn*, *matplotlib*, *scipy*, *h5py*, *torchinfo*, *pyforce*.
+   - Main dependencies: *pytorch*, *numpy*, *scikit-learn*, *matplotlib*, *scipy*, *pyvista*.
    - For P1, **pyforce** is required, see [**installation instructions**](https://ermete-lab.github.io/ROSE-pyforce/installation.html#set-up-a-conda-environment-for-pyforce)
 
 Other packages will be installed as part of the requirements.
@@ -97,14 +97,18 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 
 ### 📌 Paper 1
 
-<img src="media/P1/flux1.gif" width="300"> <img src="media/P1/T.gif" width="300"> <img src="media/P1/U.gif" width="300">
+<img src="media/P1/flux1.gif" width="500">
+<img src="media/P1/T.gif" width="500">
+<img src="media/P1/U.gif" width="500">
 
 ### 📌 Paper 2
 
-<img src="media/P2/flux1.gif" width="300"> <img src="media/P2/T.gif" width="300"> <img src="media/P2/U.gif" width="300">
+<img src="media/P2/flux1.gif" width="500">
+<img src="media/P2/T.gif" width="500">
+<img src="media/P2/U.gif" width="500">
 
 ### 📌 Paper 3
 
-<img src="media/P3/ParametricVerification.gif" width="600">
-<img src="media/P3/ParametricValidation.gif" width="600">
-<img src="media/P3/PredictionValidation.gif" width="600">
+<img src="media/P3/ParametricVerification.gif" width="500">
+<img src="media/P3/ParametricValidation.gif" width="500">
+<img src="media/P3/PredictionValidation.gif" width="500">
