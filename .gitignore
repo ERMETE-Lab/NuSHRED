@@ -138,17 +138,8 @@ dmypy.json
 ########## Datasets - to be downloaded from Zenodo ########
 NuSHRED_Datasets
 
-########### Code for P1 ########
-Code/P1/OfflineSVD
-Code/P1/OfflineSVD/*.data
-Code/P1/SHRED
-Code/P1/Test_results
+########### Code ########
+Code/*/OfflineSVD
+Code/*/SHRED
+Code/*/Test_results
 Code/P1/GEIM
-
-########### Code for P2 ########
-Code/P2/OfflineSVD
-Code/P2/SHRED
-Code/P2/Test_results
-
-########### Code for P2 ########
-Code/P3/Test_results
