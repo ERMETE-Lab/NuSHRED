@@ -109,6 +109,7 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 
 ### 📌 Paper 3
 
-| Parametric Verification | Parametric Validation | Prediction Validation |
-|------------------------|-----------------------|----------------------|
-| <img src="media/P3/ParametricVerification.gif" width="1000"> | | <img src="media/P3/ParametricValidation.gif" width="1000"> | <img src="media/P3/PredictionValidation.gif" width="1000"> |
+| **Parametric Verification** | <img src="media/P3/ParametricVerification.gif" width="600"> |
+|-----------------------------|-------------------------------------------------------------|
+| **Parametric Validation**   | <img src="media/P3/ParametricValidation.gif" width="600">   |
+| **Prediction Validation**   | <img src="media/P3/PredictionValidation.gif" width="600">   |
