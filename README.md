@@ -97,18 +97,33 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 
 ### 📌 Paper 1
 
-| Flux1 | T | U |
+| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ |
 |-------|---|---|
 | <img src="media/P1/flux1.gif" width="300"> | <img src="media/P1/T.gif" width="300"> | <img src="media/P1/U.gif" width="300"> |
 
 ### 📌 Paper 2
 
-| Flux1 | T | U |
-|-------|---|---|
-| <img src="media/P2/flux1.gif" width="300"> | <img src="media/P2/T.gif" width="300"> | <img src="media/P2/U.gif" width="300"> |
+**Out-Core Sensing (Fast Flux)**
+| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
+|-------|---|---|---|
+| <img src="media/P2/flux1.gif" width="300"> | <img src="media/P2/T.gif" width="300"> | <img src="media/P2/U.gif" width="300"> | <img src="media/P2/prec1.gif" width="300"> |
+
+**Mobile Sensors (Fist Group of Precursors)**
+
+| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
+|-------|---|---|---|
+| <img src="media/P2/flux1_mobile_sens.gif" width="300"> | <img src="media/P2/T_mobile_sens.gif" width="300"> | <img src="media/P2/U_mobile_sens.gif" width="300"> | <img src="media/P2/prec1_mobile_sens.gif" width="300"> |
+
+**Mobile Probes (only position measaured)**
+| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
+|-------|---|---|---|
+| <img src="media/P2/flux1_mobile_probes.gif" width="300"> | <img src="media/P2/T_mobile_probes.gif" width="300"> | <img src="media/P2/U_mobile_probes.gif" width="300"> | <img src="media/P2/prec1_mobile_probes.gif" width="300"> |
+
 
 ### 📌 Paper 3
 
+| **Case**                  | **Visualization**                                             |
+|-----------------------------|-------------------------------------------------------------|
 | **Parametric Verification** | <img src="media/P3/ParametricVerification.gif" width="600"> |
 |-----------------------------|-------------------------------------------------------------|
 | **Parametric Validation**   | <img src="media/P3/ParametricValidation.gif" width="600">   |
