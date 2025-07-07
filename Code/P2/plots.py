@@ -48,11 +48,11 @@ def plot_contour(ax, domain, _snap,
     
     if vec_mode_to_plot is not None:
         if vec_mode_to_plot == 'x':
-            snap = _snap[:,::3]
+            snap = _snap[::3]
         elif vec_mode_to_plot == 'y':
-            snap = _snap[:,1::3]
+            snap = _snap[1::3]
         elif vec_mode_to_plot == 'z':
-            snap = _snap[:,2::3]
+            snap = _snap[2::3]
         else:
             snap = np.linalg.norm(_snap.reshape(-1, 3), axis=1)
     else:

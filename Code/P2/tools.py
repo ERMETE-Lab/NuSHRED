@@ -3,6 +3,7 @@ import os
 from sklearn.utils.extmath import randomized_svd
 from scipy.interpolate import NearestNDInterpolator, LinearNDInterpolator
 from tqdm import tqdm
+import pickle
 
 def list_npz_files(directory):
     return [file for file in os.listdir(directory) if file.endswith('.npz')]
@@ -115,23 +116,29 @@ class SVDLargeDataset():
         return U @ np.diag(S) @ vh
 
 class LagrangianTransport_msfr():
-    def __init__(self, nodes, directory_path: str, snap_filepath: list[str]):
+    def __init__(self, nodes, directory_path: str, times: np.ndarray, scaler):
         
-        self.nodes = np.stack([nodes[:,0], nodes[:,2]]).T
+        self.nodes = np.stack([nodes[:,0], nodes[:,1]]).T
         self.path = directory_path
-        self.snap_filepath = snap_filepath
+        self.times = times
+        self.scaler = scaler
 
-    def load_snapshots(self, mu_idx):
+        self.Nt = len(times)
+
+    def load_u_snapshots(self, mu_idx):
+
+        u_data  = pickle.load(open(self.path + f'CompressedDataset/pod_basis_U.svd', 'rb'))
+        s_data  = pickle.load(open(self.path + f'CompressedDataset/sing_vals_U.svd', 'rb'))
+        vh_data = pickle.load(open(self.path + f'CompressedDataset/v_POD_all_fields.svd', 'rb'))['U'][mu_idx]
+
+        assert vh_data.shape[0] == len(self.times)
+
+        # Load the scaler
+
+        _snap = self.scaler.inverse_transform(u_data @ s_data @ vh_data.T).T
+        _snap = np.asarray([_fom.reshape(-1, 3) for _fom in _snap])
         
-        _u, _s, _vh, fom_times = import_data([self.path+self.snap_filepath[mu_idx]], 'U')
-
-        Nt = len(fom_times)
-        self.Nt = Nt
-        self.times = fom_times
-
-        velocity =  (_u[0] @ np.diag(_s[0]) @ _vh[0]).reshape(-1, 3, Nt)
-
-        return np.stack([velocity[:,0], velocity[:,2]])
+        return np.transpose(_snap[:, :, [0,2]], [2, 1, 0])  # x and z components only
 
     def interpolate_velocity(self,  position, velocity, time_idx,
                                     sampling_mesh = 1, method = 'linear'):
