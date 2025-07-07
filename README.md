@@ -97,18 +97,18 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 
 ### 📌 Paper 1
 
-<img src="media/P1/flux1.gif" width="500">
-<img src="media/P1/T.gif" width="500">
-<img src="media/P1/U.gif" width="500">
+| Flux1 | T | U |
+|-------|---|---|
+| <img src="media/P1/flux1.gif" width="300"> | <img src="media/P1/T.gif" width="300"> | <img src="media/P1/U.gif" width="300"> |
 
 ### 📌 Paper 2
 
-<img src="media/P2/flux1.gif" width="500">
-<img src="media/P2/T.gif" width="500">
-<img src="media/P2/U.gif" width="500">
+| Flux1 | T | U |
+|-------|---|---|
+| <img src="media/P2/flux1.gif" width="300"> | <img src="media/P2/T.gif" width="300"> | <img src="media/P2/U.gif" width="300"> |
 
 ### 📌 Paper 3
 
-<img src="media/P3/ParametricVerification.gif" width="500">
-<img src="media/P3/ParametricValidation.gif" width="500">
-<img src="media/P3/PredictionValidation.gif" width="500">
+| Parametric Verification | Parametric Validation | Prediction Validation |
+|------------------------|-----------------------|----------------------|
+| <img src="media/P3/ParametricVerification.gif" width="1000"> | | <img src="media/P3/ParametricValidation.gif" width="1000"> | <img src="media/P3/PredictionValidation.gif" width="1000"> |
