@@ -104,6 +104,7 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 ### 📌 Paper 2
 
 **Out-Core Sensing (Fast Flux)**
+
 | Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
 |-------|---|---|---|
 | <img src="media/P2/flux1.gif" width="300"> | <img src="media/P2/T.gif" width="300"> | <img src="media/P2/U.gif" width="300"> | <img src="media/P2/prec1.gif" width="300"> |
@@ -115,6 +116,7 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 | <img src="media/P2/flux1_mobile_sens.gif" width="300"> | <img src="media/P2/T_mobile_sens.gif" width="300"> | <img src="media/P2/U_mobile_sens.gif" width="300"> | <img src="media/P2/prec1_mobile_sens.gif" width="300"> |
 
 **Mobile Probes (only position measaured)**
+
 | Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
 |-------|---|---|---|
 | <img src="media/P2/flux1_mobile_probes.gif" width="300"> | <img src="media/P2/T_mobile_probes.gif" width="300"> | <img src="media/P2/U_mobile_probes.gif" width="300"> | <img src="media/P2/prec1_mobile_probes.gif" width="300"> |
@@ -124,7 +126,7 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 
 | **Case**                  | **Visualization**                                             |
 |-----------------------------|-------------------------------------------------------------|
-| **Parametric Verification** | <img src="media/P3/ParametricVerification.gif" width="600"> |
+| **Parametric Verification** | <img src="media/P3/ParametricVerification.gif" width="400"> |
 |-----------------------------|-------------------------------------------------------------|
-| **Parametric Validation**   | <img src="media/P3/ParametricValidation.gif" width="600">   |
-| **Prediction Validation**   | <img src="media/P3/PredictionValidation.gif" width="600">   |
+| **Parametric Validation**   | <img src="media/P3/ParametricValidation.gif" width="400">   |
+| **Prediction Validation**   | <img src="media/P3/PredictionValidation.gif" width="400">   |
