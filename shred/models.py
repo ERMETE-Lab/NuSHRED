@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import DataLoader
 from copy import deepcopy
 from IPython.display import clear_output as clc
-from .processdata import mse, mre, num2p
+from .processdata import mse, mre, num2p, weighted_mse
 
 class SHRED(torch.nn.Module):
 
@@ -70,7 +70,10 @@ class SHRED(torch.nn.Module):
         for param in self.parameters():
             param.requires_grad = True
 
-def fit(model, train_dataset, valid_dataset, batch_size = 64, epochs = 4000, optim = torch.optim.Adam, lr = 1e-3, verbose = False, patience = 5):
+def fit(model, train_dataset, valid_dataset, 
+        batch_size = 64, epochs = 4000, optim = torch.optim.Adam, lr = 1e-3, 
+        loss_function = weighted_mse, scaling_factor = None,
+        verbose = False, patience = 5):
     '''
     Neural networks training
     
@@ -101,7 +104,7 @@ def fit(model, train_dataset, valid_dataset, batch_size = 64, epochs = 4000, opt
             def closure():
                 outputs = model(data[0])
                 optimizer.zero_grad()
-                loss = mse(outputs, data[1])
+                loss = loss_function(outputs, data[1], weights = scaling_factor)
                 loss.backward()
                 return loss
             optimizer.step(closure)

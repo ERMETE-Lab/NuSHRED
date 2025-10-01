@@ -10,7 +10,6 @@ mse = lambda datatrue, datapred: (datatrue - datapred).pow(2).sum(axis = -1).mea
 mre = lambda datatrue, datapred: ((datatrue - datapred).pow(2).sum(axis = -1).sqrt() / (datatrue).pow(2).sum(axis = -1).sqrt()).mean()
 num2p = lambda prob : ("%.2f" % (100*prob)) + "%"
 
-
 class TimeSeriesDataset(torch.utils.data.Dataset):
     '''
     Input: sequence of input measurements with shape (ntrajectories, ntimes, ninput) and corresponding measurements of high-dimensional state with shape (ntrajectories, ntimes, noutput)
@@ -45,80 +44,19 @@ def Padding(data, lag):
 
     return data_out
 
-
-def multiplot(yts, plot, titles = None, fontsize = None, figsize = None, vertical = False, axis = False, save = False, name = "multiplot"):
+def weighted_mse(datatrue, datapred, weights = None):
     """
-    Multi plot of different snapshots
-    Input: list of snapshots, related plot function, plot options, save option and save path
-    """
-    
-    plt.figure(figsize = figsize)
-    for i in range(len(yts)):
-        if vertical:
-            plt.subplot(len(yts), 1, i+1)
-        else:
-            plt.subplot(1, len(yts), i+1)
-        plot(yts[i])
-        plt.title(titles[i], fontsize = fontsize)
-        if not axis:
-            plt.axis('off')
-    
-    if save:
-    	plt.savefig(name.replace(".png", "") + ".png", transparent = True, bbox_inches='tight')
+    Compute MSE using scaling factor.
 
-
-def trajectory(yt, plot, title = None, fontsize = None, figsize = None, axis = False, save = False, name = 'gif'):
-    """
-    Trajectory gif
-    Input: trajectory with dimension (sequence length, data shape), related plot function for a snapshot, plot options, save option and save path
+    Input:
+        datatrue: true data, shape (nsamples, nfeatures)
+        datapred: predicted data, shape (nsamples, nfeatures)
+        weights: scaling factor, shape (nfeatures,)
     """
 
-    arrays = []
-        
-    for i in range(yt.shape[0]):
-        plt.figure(figsize = figsize)
-        plot(yt[i])
-        plt.title(title, fontsize = fontsize)
-        if not axis:
-            plt.axis('off')
-        fig = plt.gcf()
-        display(fig)
-        if save:
-            arrays.append(np.array(fig.canvas.renderer.buffer_rgba()))
-        plt.close()
-        clc(wait=True)
+    if weights is None:
+        weights = torch.ones(datatrue.shape[1], device=datatrue.device)
 
-    if save:
-        imageio.mimsave(name.replace(".gif", "") + ".gif", arrays)
-        
-
-def trajectories(yts, plot, titles = None, fontsize = None, figsize = None, vertical = False, axis = False, save = False, name = 'gif'):
-    """
-    Gif of different trajectories
-    Input: list of trajectories with dimensions (sequence length, data shape), plot function for a snapshot, plot options, save option and save path
-    """
-
-    arrays = []
-
-    for i in range(yts[0].shape[0]):
-
-        plt.figure(figsize = figsize)
-        for j in range(len(yts)):
-            if vertical:
-                plt.subplot(len(yts), 1, j+1)
-            else:
-                plt.subplot(1, len(yts), j+1)
-            plot(yts[j][i])
-            plt.title(titles[j], fontsize = fontsize)
-            if not axis:
-                plt.axis('off')
-
-        fig = plt.gcf()
-        display(fig)
-        if save:
-            arrays.append(np.array(fig.canvas.renderer.buffer_rgba()))
-        plt.close()
-        clc(wait=True)
-
-    if save:
-        imageio.mimsave(name.replace(".gif", "") + ".gif", arrays)
+    _err = (datatrue - datapred).pow(2)
+    weighted_sum = (weights * _err).sum(axis=-1)
+    return weighted_sum.mean()
