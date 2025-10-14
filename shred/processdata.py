@@ -44,7 +44,7 @@ def Padding(data, lag):
 
     return data_out
 
-def weighted_mse(datatrue, datapred, weights = None):
+def weighted_mse(datatrue, datapred, weights=None):
     """
     Compute MSE using scaling factor.
 
@@ -53,10 +53,9 @@ def weighted_mse(datatrue, datapred, weights = None):
         datapred: predicted data, shape (nsamples, nfeatures)
         weights: scaling factor, shape (nfeatures,)
     """
-
+    
     if weights is None:
         weights = torch.ones(datatrue.shape[1], device=datatrue.device)
 
-    _err = (datatrue - datapred).pow(2)
-    weighted_sum = (weights * _err).sum(axis=-1)
-    return weighted_sum.mean()
+    diff = datatrue - datapred                     # single allocation
+    return (diff.square() * weights).sum(dim=-1).mean()

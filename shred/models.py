@@ -72,7 +72,7 @@ class SHRED(torch.nn.Module):
 
 def fit(model, train_dataset, valid_dataset, 
         batch_size = 64, epochs = 4000, optim = torch.optim.Adam, lr = 1e-3, 
-        loss_function = weighted_mse, scaling_factor = None,
+        loss_function = mse, scaling_factor = None,
         verbose = False, patience = 5):
     '''
     Neural networks training
@@ -89,6 +89,12 @@ def fit(model, train_dataset, valid_dataset,
     	patience parameter (default to 5)
     '''
 
+    # if verbose: 
+    #     if scaling_factor is not None and loss_function == weighted_mse:
+    #         print("Using weighted MSE with scaling factor")
+    #     else:
+    #         print("Using MSE")
+
     train_loader = DataLoader(train_dataset, shuffle = True, batch_size = batch_size)
     optimizer = optim(model.parameters(), lr = lr)
 
@@ -104,7 +110,10 @@ def fit(model, train_dataset, valid_dataset,
             def closure():
                 outputs = model(data[0])
                 optimizer.zero_grad()
-                loss = loss_function(outputs, data[1], weights = scaling_factor)
+                if scaling_factor is not None and loss_function == weighted_mse:
+                    loss = loss_function(outputs, data[1], weights = scaling_factor)
+                else:
+                    loss = loss_function(outputs, data[1])
                 loss.backward()
                 return loss
             optimizer.step(closure)
