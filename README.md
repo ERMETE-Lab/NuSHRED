@@ -13,14 +13,13 @@ This repository collects the codes regarding the application of the **Shallow RE
 
 This repository serves as complementary code to the following papers:
 
-- **[P1]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2024). Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors. *arXiv [Physics.Ins-Det]*.
-  [![arXiv](https://img.shields.io/badge/Ensemble%20SHRED-2409.12550-b31b1b.svg)](http://arxiv.org/abs/2409.12550)
+- **[P1]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors. *Progress in Nuclear Energy*, vol. 189, pp. 105928  [![arXiv](https://img.shields.io/badge/Ensemble%20SHRED-2409.12550-b31b1b.svg)](https://doi.org/10.1016/j.pnucene.2025.105928)
 
-- **[P2]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks
-  [![arXiv](https://img.shields.io/badge/Parametric%20MSFR-2503.08904-b31b1b.svg)](http://arxiv.org/abs/2503.08904)
+- **[P2]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks [![arXiv](https://img.shields.io/badge/Parametric%20MSFR-2503.08904-b31b1b.svg)](http://arxiv.org/abs/2503.08904)
 
-- **[P3]** Introini, C., Riva, S., Kutz, J. N. & Cammi, A.(2025). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility
-  [![arXiv](https://img.shields.io/badge/Verification&Validation%20DYNASTY-2503.08907-b31b1b.svg)](http://arxiv.org/abs/2503.08907)
+- **[P3]** Introini, C., Riva, S., Kutz, J. N. & Cammi, A.(2025). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility [![arXiv](https://img.shields.io/badge/Verification&Validation%20DYNASTY-2503.08907-b31b1b.svg)](http://arxiv.org/abs/2503.08907)
+
+- **[P4]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [![arXiv](https://img.shields.io/badge/%20TRIGA-2503.08908-b31b1b.svg)](https://arxiv.org/abs/2510.12368)
 
 ---
 
@@ -32,6 +31,7 @@ The compressed simulation datasets are available on **Zenodo**:
 - **[D1]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Single Transient (Reconstruction mode)
 - **[D2]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients
 - **[D3]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
+- **[D4]** CFD model of TRIGA Mark II Reactor - Single Transient (Reconstruction mode)
 
 🎥 If you want to know more about the SHRED method for nuclear reactors, check out this [**YouTube video**](https://www.youtube.com/watch?v=AUuGhojLiFk)!
 
@@ -63,12 +63,12 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 📁 **Code/** → Subfolders corresponding to the applications of SHRED in nuclear reactor concepts, with datasets associated as follows:
 
-| | MSFR-ULOFF D1 |  MSFR-ULOFF D2  | DYNASTY D3 |
-|---|:---:|:---:|:---:|
-| **P1** | ✅ |   |   |
-| **P2** |   | ✅ |   |
-| **P3** |   |   | ✅ |
-
+| | MSFR-ULOFF D1 |  MSFR-ULOFF D2  | DYNASTY D3 | TRIGA D4 |
+|---|:---:|:---:|:---:| :---:|
+| **P1** | ✅ |    |    |    |
+| **P2** |    | ✅ |    |    |
+| **P3** |    |    | ✅ |    |
+| **P4** |    |    |    | ✅ |
 
 ## ▶️ How to Execute
 
@@ -130,3 +130,9 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 |-----------------------------|-------------------------------------------------------------|
 | **Parametric Validation**   | <img src="media/P3/ParametricValidation.gif" width="400">   |
 | **Prediction Validation**   | <img src="media/P3/PredictionValidation.gif" width="400">   |
+
+### 📌 Paper 4
+
+| Temperature $T$ | Velocity $\mathbf{u}$ |
+|---|---|
+| <img src="media/P4/T.gif" width="300"> | <img src="media/P4/U.gif" width="300"> |
