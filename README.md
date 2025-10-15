@@ -127,7 +127,6 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 | **Case**                  | **Visualization**                                             |
 |-----------------------------|-------------------------------------------------------------|
 | **Parametric Verification** | <img src="media/P3/ParametricVerification.gif" width="400"> |
-|-----------------------------|-------------------------------------------------------------|
 | **Parametric Validation**   | <img src="media/P3/ParametricValidation.gif" width="400">   |
 | **Prediction Validation**   | <img src="media/P3/PredictionValidation.gif" width="400">   |
 
