@@ -17,9 +17,11 @@ This repository serves as complementary code to the following papers:
 
 - **[P2]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks [![arXiv](https://img.shields.io/badge/Parametric%20MSFR-2503.08904-b31b1b.svg)](http://arxiv.org/abs/2503.08904)
 
-- **[P3]** Introini, C., Riva, S., Kutz, J. N. & Cammi, A.(2025). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility [![arXiv](https://img.shields.io/badge/Verification&Validation%20DYNASTY-2503.08907-b31b1b.svg)](http://arxiv.org/abs/2503.08907)
+- **[P3]** Riva, S., Missaglia A., Introini, C., Kutz, J. N. & Cammi, A.(2026). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility [![arXiv](https://img.shields.io/badge/Verification&Validation%20DYNASTY-2503.08907-b31b1b.svg)](https://arxiv.org/abs/2503.08907)
 
 - **[P4]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [![arXiv](https://img.shields.io/badge/%20TRIGA-2503.08908-b31b1b.svg)](https://arxiv.org/abs/2510.12368)
+
+**Upcoming works**: 2 contributions will be presented at the PHYSOR2026 conference, two preprints on arxiv have been submitted on the application of SHRED to Fusion MHD systems (code will be released soon).
 
 ---
 
