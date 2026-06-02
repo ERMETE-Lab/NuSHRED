@@ -1,4 +1,4 @@
-This directory contains the code for the MF-SHRED.
+This directory contains the code for the MF-SHRED. The solvers have been updated from OFELIA repository within the ERMETE Lab.
 To generate directly the data, it is required to use dolfinx (version 0.10.0). The easiest way to do this is through conda:
 
 ```bash
