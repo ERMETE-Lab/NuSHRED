@@ -1,11 +1,13 @@
 import dolfinx
 import numpy as np
-import ufl
 from dolfinx import fem
-from dolfinx.fem import (Function, FunctionSpace, assemble_scalar, form, 
+import dolfinx.fem.petsc
+from dolfinx.fem import (Function, functionspace, assemble_scalar, form, 
                         locate_dofs_topological, dirichletbc)
 from ufl import grad, inner, dot
+import ufl
 from petsc4py import PETSc
+import basix.ufl
 
 class steady_neutron_diff():
     r""""
@@ -49,14 +51,20 @@ class steady_neutron_diff():
         self.G = physical_param['Energy Groups']
 
         # Flux Functional Space
-        self.P1 = ufl.FiniteElement("Lagrange", domain.ufl_cell(), 1)
+        # self.P1 = ufl.FiniteElement("Lagrange", domain.ufl_cell(), 1)
+        # spaces = list()
+        # for g in range(self.G):
+        #     spaces.append(self.P1)
+        # self.V = functionspace(self.domain, ufl.MixedElement(spaces))
+        self.P1 = basix.ufl.element("CG", self.domain.topology.cell_name(), 1)
         spaces = list()
         for g in range(self.G):
             spaces.append(self.P1)
-        self.V = FunctionSpace(self.domain, ufl.MixedElement(spaces))
+        self.V = functionspace(self.domain, basix.ufl.mixed_element(spaces) )
         
         # Material Properties Functional Space
-        self.Qn = FunctionSpace(domain, ("DG", 0))
+        # self.Qn = functionspace(domain, ("DG", 0))
+        self.Qn = functionspace(domain, basix.ufl.element("DG", domain.topology.cell_name(), 0))
         if coupling is not None:
             self.T = Function(self.Qn)
             self.Tref = physical_param['Tref']
@@ -95,7 +103,7 @@ class steady_neutron_diff():
         self.albedo = albedo
         if self.albedo is None:
             self.zero = Function(self.V)
-            self.zero.x.set(0.)
+            # self.zero.x.set(0.)
             self.bcs = list()
             for g in range(self.G):
                 self.bcs.append( dirichletbc(self.zero.sub(g), 
@@ -150,9 +158,11 @@ class steady_neutron_diff():
         self.b  = form(self.right_side)
         self.b2 = form(self.right_side2)
 
-        self.A   = fem.petsc.create_matrix(self.a)
-        self.rhs = fem.petsc.create_vector(self.b)
-        self.B   = fem.petsc.create_vector(self.b2)
+        self.A   = dolfinx.fem.petsc.create_matrix(self.a)
+        # self.rhs = dolfinx.fem.petsc.create_vector(self.b)
+        # self.B   = dolfinx.fem.petsc.create_vector(self.b2)
+        self.rhs = dolfinx.fem.petsc.create_vector(dolfinx.fem.extract_function_spaces(self.b))
+        self.B   = dolfinx.fem.petsc.create_vector(dolfinx.fem.extract_function_spaces(self.b2))
 
         self.solver = PETSc.KSP().create(self.domain.comm)
         self.solver.setOperators(self.A)
@@ -255,7 +265,7 @@ class steady_neutron_diff():
             if len(self.T.x.array[:]) == len(temperature.x.array[:]):
                 self.T.x.array[:] = temperature.x.array[:]
             else:
-                self.T.interpolate(fem.Expression( temperature, self.Qn.element.interpolation_points() ))
+                self.T.interpolate(fem.Expression( temperature, self.Qn.element.interpolation_points ))
 
         # Update XS
         self.update_xs()
@@ -269,8 +279,8 @@ class steady_neutron_diff():
         self.A.assemble()  
 
         # Setting initial guess
-        self.old.x.set(1.)
-        self.k.x.set(1.02)
+        self.old.x.array[:] = 1.
+        self.k.x.array[:] = 1.02
         k_eff_list = []
 
         error = 1.
@@ -288,7 +298,8 @@ class steady_neutron_diff():
                 fem.petsc.set_bc(self.rhs, self.bcs)
 
             # Solve linear problem
-            self.solver.solve(self.rhs, self.new.vector)
+            # self.solver.solve(self.rhs, self.new.vector)
+            self.solver.solve(self.rhs, self.new.x.petsc_vec)
             self.new.x.scatter_forward()  
 
             # Computing LHS as vector using new solution
@@ -314,7 +325,8 @@ class steady_neutron_diff():
             Bphi = self.B.array[:]
             
             k_eff_list.append( np.dot(Bphi, Bphi) / np.dot(Aphi, Bphi) )
-            self.k.x.set(k_eff_list[ii])
+            # self.k.x.set(k_eff_list[ii])
+            self.k.x.array[:] = k_eff_list[ii]
             
             if ii > 0:
                 error = abs(k_eff_list[ii] - k_eff_list[ii-1]) / k_eff_list[ii]
@@ -341,7 +353,7 @@ class steady_neutron_diff():
         for g in range(self.G):
             normalised_fluxes.append(Function(self.V.sub(g).collapse()[0]))
             normalised_fluxes[g].interpolate(fem.Expression (normalisation * self.new.sub(g), 
-                                                             self.V.sub(g).collapse()[0].element.interpolation_points()) )
+                                                             self.V.sub(g).collapse()[0].element.interpolation_points) )
                                                   
         return normalised_fluxes, k_eff_list[-1]
     
@@ -392,18 +404,27 @@ class transient_neutron_diff():
         assert(len(physical_param['beta_l']) == len(physical_param['beta_l']))
         self.prec_groups = len(physical_param['beta_l'])
 
-        self.P1 = ufl.FiniteElement("Lagrange", domain.ufl_cell(), 1)
-        self.P0 = ufl.FiniteElement("DG", self.domain.ufl_cell(), 0)
+        # # Old
+        # self.P1 = ufl.FiniteElement("Lagrange", domain.ufl_cell(), 1)
+        # self.P0 = ufl.FiniteElement("DG", self.domain.ufl_cell(), 0)
+        # spaces = list()
+        # for g in range(self.G):
+        #     spaces.append(self.P1)
+        # for ll in range(self.prec_groups):
+        #     spaces.append(self.P0)
+        # self.V = functionspace(self.domain, ufl.MixedElement(spaces) )
+        # self.Q = functionspace(self.domain, self.P1)
+        self.P1 = basix.ufl.element("CG", self.domain.topology.cell_name(), 1)
+        self.P0 = basix.ufl.element("DG", self.domain.topology.cell_name(), 0)
         spaces = list()
         for g in range(self.G):
             spaces.append(self.P1)
         for ll in range(self.prec_groups):
             spaces.append(self.P0)
-        self.V = FunctionSpace(self.domain, ufl.MixedElement(spaces) )
-        self.Q = FunctionSpace(self.domain, self.P1)
+        self.V = functionspace(self.domain, basix.ufl.mixed_element(spaces) )
         
         # Material Properties Functional Space
-        self.Qn = FunctionSpace(domain, ("DG", 0))
+        self.Qn = functionspace(domain, basix.ufl.element("DG", domain.topology.cell_name(), 0))
         if coupling is not None:
             self.T = Function(self.Qn)
             self.Tref = physical_param['Tref']
@@ -464,7 +485,7 @@ class transient_neutron_diff():
         self.albedo = albedo
         if self.albedo is None:
             self.zero = Function(self.V)
-            self.zero.x.set(0.)
+            # self.zero.x.set(0.)
             self.bcs = list()
             for g in range(self.G):
                 self.bcs.append( dirichletbc(self.zero.sub(g), 
@@ -497,7 +518,7 @@ class transient_neutron_diff():
             
         """
     
-        self.dt.x.set(dt)
+        self.dt.x.array[:] = dt
         
         # Left Hand Side - Flux - Time derivative
         self.left_side = inner(self.recip_v[0] / self.dt * self.trial[0], self.test[0]) * self.dx
@@ -550,7 +571,8 @@ class transient_neutron_diff():
         self.linear   = fem.form(self.right_side)
 
         self.A = fem.petsc.create_matrix(self.bilinear)
-        self.b = fem.petsc.create_vector(self.linear)
+        # self.b = fem.petsc.create_vector(self.linear)
+        self.b = fem.petsc.create_vector(fem.extract_function_spaces(self.linear))
 
         self.solver = PETSc.KSP().create(self.domain.comm)
         self.solver.setOperators(self.A)
@@ -564,7 +586,7 @@ class transient_neutron_diff():
 
         # Initialise flux and precursors
         for g in range(self.G):
-            self.old.sub(g).interpolate(fem.Expression(phi_ss[g], self.V.sub(g).element.interpolation_points()))
+            self.old.sub(g).interpolate(fem.Expression(phi_ss[g], self.V.sub(g).element.interpolation_points))
  
         self.update_xs()
         
@@ -575,7 +597,7 @@ class transient_neutron_diff():
             self.old.sub(self.G+ll).interpolate(fem.Expression(
                                                 ufl.conditional(ufl.gt(self.lambda_l[ll], 0.), 
                                                                 self.beta_l[ll] * power_form / self.lambda_l[ll], 0.), 
-                                           self.V.sub(self.G+ll).collapse()[0].element.interpolation_points()))
+                                           self.V.sub(self.G+ll).collapse()[0].element.interpolation_points))
 
         # Initialise power form
         self.power_form = form( Ef / nu * power_form * self.dx )
@@ -653,7 +675,7 @@ class transient_neutron_diff():
             if len(self.T.x.array[:]) == len(temperature.x.array[:]):
                 self.T.x.array[:] = temperature.x.array[:]
             else:
-                self.T.interpolate(fem.Expression( temperature, self.Qn.element.interpolation_points() ))
+                self.T.interpolate(fem.Expression( temperature, self.Qn.element.interpolation_points ))
             
         # assembling LHS matrix
         self.A.zeroEntries()
@@ -684,7 +706,7 @@ class transient_neutron_diff():
             self.b.ghostUpdate(addv=PETSc.InsertMode.ADD_VALUES, mode=PETSc.ScatterMode.REVERSE)
             fem.petsc.set_bc(self.b, self.bcs)
         
-        self.solver.solve(self.b, self.new.vector)
+        self.solver.solve(self.b, self.new.x.petsc_vec)
         self.new.x.scatter_forward()
 
         # Update old

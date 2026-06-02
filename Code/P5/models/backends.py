@@ -3,7 +3,7 @@ import time
 import warnings
 
 # import dolfinx
-from dolfinx.fem import (Function, FunctionSpace, assemble_scalar, assemble_vector, form, Expression)
+from dolfinx.fem import (Function, functionspace, assemble_scalar, assemble_vector, form, Expression)
 from ufl import grad, inner, dx, Measure
 from ufl.domain import extract_unique_domain
 # Note that dx will be deprecated in the future, is it necessary to import the mesh in addition to V?
@@ -75,13 +75,13 @@ class norms():
 
         Parameters
         ----------
-        V : FunctionSpace
+        V : functionspace
             Functional Space onto which the Function are defined.
         is_H1 : boolean, optional (Default = False)
             If the function belongs to :math:`H^1`, the forms for the inner products and norms are computed.
 
     """
-    def __init__(self, V: FunctionSpace, is_H1 = False, metadata_degree=4):
+    def __init__(self, V: functionspace, is_H1 = False, metadata_degree=4):
         
         self.V = V
         self.u1 = Function(V).copy()
@@ -125,7 +125,7 @@ class norms():
                 self.u1.x.array[:] = u
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(u, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(u, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 self.u1.x.array[:] = tmp.x.array[:]
@@ -187,7 +187,7 @@ class norms():
                 self.u2.x.array[:] = u
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(u, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(u, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 self.u1.x.array[:] = tmp.x.array[:]
@@ -230,7 +230,7 @@ class norms():
                 self.u2.x.array[:] = u
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(u, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(u, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 self.u1.x.array[:] = tmp.x.array[:]
@@ -269,7 +269,7 @@ class norms():
                 return np.max(np.abs(u))
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(u, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(u, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 value = np.max(np.abs(tmp.x.array)) 
@@ -304,7 +304,7 @@ class norms():
                 self.u1.x.array[:] = u
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(u, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(u, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 self.u1.x.array[:] = tmp.x.array[:]
@@ -316,7 +316,7 @@ class norms():
                 self.u2.x.array[:] = v
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(v, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(v, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 self.u2.x.array[:] = tmp.x.array[:]
@@ -357,7 +357,7 @@ class norms():
                 self.u1.x.array[:] = u
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(u, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(u, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 self.u1.x.array[:] = tmp.x.array[:]
@@ -369,7 +369,7 @@ class norms():
                 self.u2.x.array[:] = v
             else:
                 tmp = Function(self.V).copy()
-                tmp.interpolate(Expression(v, self.V.element.interpolation_points()))
+                tmp.interpolate(Expression(v, self.V.element.interpolation_points))
                 warnings.warn("Input u is not a function: it may slower the calculations")            
 
                 self.u2.x.array[:] = tmp.x.array[:]

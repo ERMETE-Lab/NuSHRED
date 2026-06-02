@@ -1,4 +1,4 @@
-from dolfinx.io import gmshio
+from dolfinx.io import gmsh as gmshio
 import gmsh
 from mpi4py import MPI
 import copy
@@ -39,7 +39,15 @@ class DiffusionModel():
         clear_output()
 
         # Domain
-        domain, ct, ft = gmshio.model_to_mesh(gmsh.model, comm = mesh_comm, rank = model_rank, gdim = gdim )
+        # domain, ct, ft = gmshio.model_to_mesh(gmsh.model, comm = mesh_comm, rank = model_rank, gdim = gdim )
+        mesh_data = gmshio.model_to_mesh(gmsh.model, comm = mesh_comm, rank = model_rank, gdim = gdim)
+        domain = mesh_data.mesh
+        assert mesh_data.facet_tags is not None
+        ft = mesh_data.facet_tags
+        ft.name = "Facet markers"
+        assert mesh_data.cell_tags is not None
+        ct = mesh_data.cell_tags
+        ct.name = "Cell markers"
         gmsh.finalize()
 
         self.domain1_marker = 10

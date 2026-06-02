@@ -24,7 +24,7 @@ def get_scalar_grid(fun: Function, varname: str, real = True):
     u_grid : pyvista.UnstructuredGrid
         Unstructured grid of values for the selected function.
     """
-    topology, cells, geometry = dolfinx.plot.create_vtk_mesh(fun.function_space)
+    topology, cells, geometry = dolfinx.plot.vtk_mesh(fun.function_space)
     u_grid = pv.UnstructuredGrid(topology, cells, geometry)
 
     if real:
@@ -52,10 +52,10 @@ def extract_cells(domain: dolfinx.mesh.Mesh, points: np.ndarray):
     cells : list
         List of cells of the mesh.
     """
-    bb_tree = geometry.BoundingBoxTree(domain, domain.topology.dim)
+    bb_tree = geometry.bb_tree(domain, domain.topology.dim)
     cells = []
     points_on_proc = []
-    cell_candidates = geometry.compute_collisions(bb_tree, points.T)
+    cell_candidates = geometry.compute_collisions_trees(bb_tree, points.T)
     colliding_cells = geometry.compute_colliding_cells(domain, cell_candidates, points.T)
     for i, point in enumerate(points.T):
         if len(colliding_cells.links(i))>0:
