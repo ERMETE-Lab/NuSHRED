@@ -85,6 +85,7 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 3️⃣ **Install the required dependencies:**
    - Main dependencies: *pytorch*, *numpy*, *scikit-learn*, *matplotlib*, *scipy*, *pyvista*.
    - For P1, **pyforce** is required, see [**installation instructions**](https://ermete-lab.github.io/ROSE-pyforce/installation.html#set-up-a-conda-environment-for-pyforce)
+   - For P5, **dolfinx-v.0.10.0** is required, see instructions in the directory **P5**.
 
 Other packages will be installed as part of the requirements.
 
@@ -143,4 +144,5 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 | <img src="media/P4/T.gif" width="300"> | <img src="media/P4/U.gif" width="300"> |
 
 ### 📌 Paper 5
-TBD
+<img src="media/P5/mfshred-diffusion.png" width="500">
+
