@@ -74,13 +74,13 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 📁 **Code/** → Subfolders corresponding to the applications of SHRED in nuclear reactor concepts, with datasets associated as follows:
 
-| | MSFR-ULOFF D1 |  MSFR-ULOFF D2  | DYNASTY D3 | TRIGA D4 | LRA D5 |
-|---|:---:|:---:|:---:| :---:| :---:|
-| **P1** | ✅ |    |    |    |    |
-| **P2** |    | ✅ |    |    |    |
-| **P3** |    |    | ✅ |    |    |
-| **P4** |    |    |    | ✅ |    |
-| **P5** |    |    |    |    | ✅ |
+|        | MSFR-ULOFF D1 | MSFR-ULOFF D2 | DYNASTY D3 | TRIGA D4 | LRA D5 |
+| ------ | :-----------: | :-----------: | :--------: | :------: | :----: |
+| **P1** |       ✅       |               |            |          |        |
+| **P2** |               |       ✅       |            |          |        |
+| **P3** |               |               |     ✅      |          |        |
+| **P4** |               |               |            |    ✅     |        |
+| **P5** |               |               |            |          |   ✅    |
 
 ## ▶️ How to Execute
 
@@ -90,20 +90,21 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 3️⃣ **Install the required dependencies:**
 
-   **Base install** (required for P2, P3, P4):
+   **Base install**:
    ```bash
    pip install -r requirements.txt
    ```
 
-   **P1** additionally requires an older version of `pyforce` (not compatible with v1.0.0), available at [github.com/ERMETE-Lab/ROSE-pyforce](https://github.com/ERMETE-Lab/ROSE-pyforce). For assistance running P1, please contact stefano.riva@polimi.it directly.
+   **P1** additionally requires an older version of `pyforce` (not compatible with v1.0.0), available at [github.com/ERMETE-Lab/ROSE-pyforce](https://github.com/ERMETE-Lab/ROSE-pyforce) *for some notebooks*. For assistance running P1, please contact stefano.riva@polimi.it directly.
 
-   > **Note:** P1 is an earlier work included for completeness. **The primary contributions of this repository are P2–P5**, which only require the base `pip install -r requirements.txt` (plus FEniCSx for P5 if you want to generate the data yourself).
-
-   **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`). Install via conda:
+   **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`) if you want to generate the data yourself. Install via conda:
    ```bash
    conda install -c conda-forge fenics-dolfinx=0.10.0 gmsh mpi4py pyvista
    ```
    See the [P5 README](Code/P5/README.md) for further details.
+
+   > **Note:** All the SHRED-related code require the base `pip install -r requirements.txt` only.
+
 
 ---
 
@@ -120,43 +121,43 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 
 ### 📌 Paper 1
 
-| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ |
-|-------|---|---|
+| Fast Flux $\phi_1$                         | Temperature $T$                        | Velocity $\mathbf{u}$                  |
+| ------------------------------------------ | -------------------------------------- | -------------------------------------- |
 | <img src="media/P1/flux1.gif" width="300"> | <img src="media/P1/T.gif" width="300"> | <img src="media/P1/U.gif" width="300"> |
 
 ### 📌 Paper 2
 
 **Out-Core Sensing (Fast Flux)**
 
-| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
-|-------|---|---|---|
+| Fast Flux $\phi_1$                         | Temperature $T$                        | Velocity $\mathbf{u}$                  | Precursors Group 1 $c_1$                   |
+| ------------------------------------------ | -------------------------------------- | -------------------------------------- | ------------------------------------------ |
 | <img src="media/P2/flux1.gif" width="300"> | <img src="media/P2/T.gif" width="300"> | <img src="media/P2/U.gif" width="300"> | <img src="media/P2/prec1.gif" width="300"> |
 
 **Mobile Sensors (First Group of Precursors)**
 
-| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
-|-------|---|---|---|
+| Fast Flux $\phi_1$                                     | Temperature $T$                                    | Velocity $\mathbf{u}$                              | Precursors Group 1 $c_1$                               |
+| ------------------------------------------------------ | -------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------ |
 | <img src="media/P2/flux1_mobile_sens.gif" width="300"> | <img src="media/P2/T_mobile_sens.gif" width="300"> | <img src="media/P2/U_mobile_sens.gif" width="300"> | <img src="media/P2/prec1_mobile_sens.gif" width="300"> |
 
 **Mobile Probes (only position measaured)**
 
-| Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
-|-------|---|---|---|
+| Fast Flux $\phi_1$                                       | Temperature $T$                                      | Velocity $\mathbf{u}$                                | Precursors Group 1 $c_1$                                 |
+| -------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------- |
 | <img src="media/P2/flux1_mobile_probes.gif" width="300"> | <img src="media/P2/T_mobile_probes.gif" width="300"> | <img src="media/P2/U_mobile_probes.gif" width="300"> | <img src="media/P2/prec1_mobile_probes.gif" width="300"> |
 
 
 ### 📌 Paper 3
 
-| **Case**                  | **Visualization**                                             |
-|-----------------------------|-------------------------------------------------------------|
+| **Case**                    | **Visualization**                                           |
+| --------------------------- | ----------------------------------------------------------- |
 | **Parametric Verification** | <img src="media/P3/ParametricVerification.gif" width="400"> |
 | **Parametric Validation**   | <img src="media/P3/ParametricValidation.gif" width="400">   |
 | **Prediction Validation**   | <img src="media/P3/PredictionValidation.gif" width="400">   |
 
 ### 📌 Paper 4
 
-| Temperature $T$ | Velocity $\mathbf{u}$ |
-|---|---|
+| Temperature $T$                        | Velocity $\mathbf{u}$                  |
+| -------------------------------------- | -------------------------------------- |
 | <img src="media/P4/T.gif" width="300"> | <img src="media/P4/U.gif" width="300"> |
 
 ### 📌 Paper 5
