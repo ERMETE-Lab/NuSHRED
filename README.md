@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8%2B-magenta.svg)](https://www.python.org/)
-[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.15015236-blue.svg)](https://doi.org/10.5281/zenodo.15015236)
+[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.20554287-blue.svg)](https://doi.org/10.5281/zenodo.20554287)
 [![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://www.youtube.com/watch?v=AUuGhojLiFk)
 
 This repository collects the codes regarding the application of the **Shallow REcurrent Decoder** (SHRED) method to **Nuclear Reactors** systems 🏭⚛️
@@ -21,21 +21,30 @@ This repository serves as complementary code to the following papers:
 
 - **[P4]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [![arXiv](https://img.shields.io/badge/%20TRIGA-2503.08908-b31b1b.svg)](https://arxiv.org/abs/2510.12368)
 
-**Upcoming works**: 2 contributions will be presented at the PHYSOR2026 conference, two preprints on arxiv have been submitted on the application of SHRED to Fusion MHD systems (code will be released soon).
+- **[P5]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A., (2026). MF-SHRED
+
+**Upcoming works**: two preprints on arxiv have been submitted on the application of SHRED to Fusion MHD systems (code will be released soon).
 
 ---
 
 ## 📊 Simulation Data
 The compressed simulation datasets are available on **Zenodo**:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15015236.svg)](https://doi.org/10.5281/zenodo.15015236)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20554287.svg)](https://doi.org/10.5281/zenodo.20554287)
 
 - **[D1]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Single Transient (Reconstruction mode)
 - **[D2]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients
 - **[D3]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
 - **[D4]** CFD model of TRIGA Mark II Reactor - Single Transient (Reconstruction mode)
+- **[D5]** Neutronics Model using Diffusion and Point Kinetics LRA benchmark reactor
 
 🎥 If you want to know more about the SHRED method for nuclear reactors, check out this [**YouTube video**](https://www.youtube.com/watch?v=AUuGhojLiFk)!
+
+You can use the script `Code/download_datasets.py` to download the datasets (if `files` argument is not specified, all datasets will be downloaded):
+
+```bash
+python Code/download_datasets.py --files D1 D2
+```
 
 ---
 
@@ -43,15 +52,15 @@ The compressed simulation datasets are available on **Zenodo**:
 
 The SHRED method was first proposed and developed in this paper:
 
-- **J. Williams, O. Zahn and J. N. Kutz**, *Sensing with shallow recurrent decoder networks*, arXiv (2023) [arXiv:2301.12011]
+- **J. Williams, O. Zahn and J. N. Kutz**, *Sensing with shallow recurrent decoder networks*, [Proc. R. Soc. A, 2024](https://royalsocietypublishing.org/rspa/article/480/2298/20240054/66770/Sensing-with-shallow-recurrent-decoder)
 
-📌 The original code base is available here: [**github.com/Jan-Williams/pyshred**](https://github.com/Jan-Williams/pyshred)
+📌 The original code base is available here: [**github.com/Jan-Williams/pyshred**](https://github.com/Jan-Williams/pyshred).
 
 This repository also builds upon a related implementation:
 
-- **Matteo Tomasetto, Jan P. Williams, Francesco Braghin, Andrea Manzoni, J. Nathan Kutz**, *Reduced Order Modeling with Shallow Recurrent Decoder Networks*, arXiv (2025) [arXiv:2502.10930]
+- **Matteo Tomasetto, Jan P. Williams, Francesco Braghin, Andrea Manzoni, J. Nathan Kutz**, *Reduced Order Modeling with Shallow Recurrent Decoder Networks*, [Nature Communications, 2025](https://www.nature.com/articles/s41467-025-65126-y)
 
-📌 Improvements for Parametric datasets are available here: [**github.com/MatteoTomasetto/SHRED-ROM**](https://github.com/MatteoTomasetto/SHRED-ROM)
+📌 Improvements for parametric datasets are available here (collaborative between Matteo Tomasetto and Stefano Riva): [**github.com/MatteoTomasetto/SHRED-ROM**](https://github.com/MatteoTomasetto/SHRED-ROM)
 
 Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce) is used for **sensor placements** and **EIM/GEIM comparison** in P1. See:
 - [Riva et al. (2024)](https://doi.org/10.1016/j.apm.2024.06.040)
@@ -65,12 +74,13 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 📁 **Code/** → Subfolders corresponding to the applications of SHRED in nuclear reactor concepts, with datasets associated as follows:
 
-| | MSFR-ULOFF D1 |  MSFR-ULOFF D2  | DYNASTY D3 | TRIGA D4 |
-|---|:---:|:---:|:---:| :---:|
-| **P1** | ✅ |    |    |    |
-| **P2** |    | ✅ |    |    |
-| **P3** |    |    | ✅ |    |
-| **P4** |    |    |    | ✅ |
+| | MSFR-ULOFF D1 |  MSFR-ULOFF D2  | DYNASTY D3 | TRIGA D4 | LRA D5 |
+|---|:---:|:---:|:---:| :---:| :---:|
+| **P1** | ✅ |    |    |    |    |
+| **P2** |    | ✅ |    |    |    |
+| **P3** |    |    | ✅ |    |    |
+| **P4** |    |    |    | ✅ |    |
+| **P5** |    |    |    |    | ✅ |
 
 ## ▶️ How to Execute
 
@@ -81,6 +91,7 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 3️⃣ **Install the required dependencies:**
    - Main dependencies: *pytorch*, *numpy*, *scikit-learn*, *matplotlib*, *scipy*, *pyvista*.
    - For P1, **pyforce** is required, see [**installation instructions**](https://ermete-lab.github.io/ROSE-pyforce/installation.html#set-up-a-conda-environment-for-pyforce)
+   - For P5, **dolfinx-v.0.10.0** is required, see instructions in the directory **P5**.
 
 Other packages will be installed as part of the requirements.
 
@@ -137,3 +148,7 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 | Temperature $T$ | Velocity $\mathbf{u}$ |
 |---|---|
 | <img src="media/P4/T.gif" width="300"> | <img src="media/P4/U.gif" width="300"> |
+
+### 📌 Paper 5
+<img src="media/P5/mfshred-diffusion.png" width="500">
+
