@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8%2B-magenta.svg)](https://www.python.org/)
-[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.15015236-blue.svg)](https://doi.org/10.5281/zenodo.15015236)
+[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.20554287-blue.svg)](https://doi.org/10.5281/zenodo.20554287)
 [![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://www.youtube.com/watch?v=AUuGhojLiFk)
 
 This repository collects the codes regarding the application of the **Shallow REcurrent Decoder** (SHRED) method to **Nuclear Reactors** systems 🏭⚛️
@@ -30,7 +30,7 @@ This repository serves as complementary code to the following papers:
 ## 📊 Simulation Data
 The compressed simulation datasets are available on **Zenodo**:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15015236.svg)](https://doi.org/10.5281/zenodo.15015236)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20554287.svg)](https://doi.org/10.5281/zenodo.20554287)
 
 - **[D1]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Single Transient (Reconstruction mode)
 - **[D2]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients
@@ -40,21 +40,27 @@ The compressed simulation datasets are available on **Zenodo**:
 
 🎥 If you want to know more about the SHRED method for nuclear reactors, check out this [**YouTube video**](https://www.youtube.com/watch?v=AUuGhojLiFk)!
 
+You can use the script `Code/download_datasets.py` to download the datasets (if `files` argument is not specified, all datasets will be downloaded):
+
+```bash
+python Code/download_datasets.py --files D1 D2
+```
+
 ---
 
 ## 🏗️ Foundations of SHRED
 
 The SHRED method was first proposed and developed in this paper:
 
-- **J. Williams, O. Zahn and J. N. Kutz**, *Sensing with shallow recurrent decoder networks*, arXiv (2023) [arXiv:2301.12011]
+- **J. Williams, O. Zahn and J. N. Kutz**, *Sensing with shallow recurrent decoder networks*, [Proc. R. Soc. A, 2024](https://royalsocietypublishing.org/rspa/article/480/2298/20240054/66770/Sensing-with-shallow-recurrent-decoder)
 
-📌 The original code base is available here: [**github.com/Jan-Williams/pyshred**](https://github.com/Jan-Williams/pyshred)
+📌 The original code base is available here: [**github.com/Jan-Williams/pyshred**](https://github.com/Jan-Williams/pyshred).
 
 This repository also builds upon a related implementation:
 
-- **Matteo Tomasetto, Jan P. Williams, Francesco Braghin, Andrea Manzoni, J. Nathan Kutz**, *Reduced Order Modeling with Shallow Recurrent Decoder Networks*, arXiv (2025) [arXiv:2502.10930]
+- **Matteo Tomasetto, Jan P. Williams, Francesco Braghin, Andrea Manzoni, J. Nathan Kutz**, *Reduced Order Modeling with Shallow Recurrent Decoder Networks*, [Nature Communications, 2025](https://www.nature.com/articles/s41467-025-65126-y)
 
-📌 Improvements for Parametric datasets are available here: [**github.com/MatteoTomasetto/SHRED-ROM**](https://github.com/MatteoTomasetto/SHRED-ROM)
+📌 Improvements for parametric datasets are available here (collaborative between Matteo Tomasetto and Stefano Riva): [**github.com/MatteoTomasetto/SHRED-ROM**](https://github.com/MatteoTomasetto/SHRED-ROM)
 
 Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce) is used for **sensor placements** and **EIM/GEIM comparison** in P1. See:
 - [Riva et al. (2024)](https://doi.org/10.1016/j.apm.2024.06.040)
