@@ -3,175 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$title$</title>
+    <title>NuSHRED</title>
     <style>
         :root {
-            --main-bg-color: #fffcfc;  /* Dark background for better readability */
-            --sidebar-bg: #f2dfdf;  /* Slightly lighter gray for sidebar */
-            --text-color: #070707;  /* Lighter text for dark mode */
-            --link-color: #f90000;  /* Soft light blue for links */
-            --highlight-color: #3b00fe; /* Highlighted text color */
-            --code-bg: #00b1fc;  /* Dark code background */
-            --table-border-color: #000000; /* Table borders */
+            --bg: #ffffff;
+            --bg-subtle: #f6f8fa;
+            --border: #d0d7de;
+            --text: #1f2328;
+            --text-muted: #656d76;
+            --link: #0969da;
+            --accent: #0550ae;
+            --code-bg: #f6f8fa;
+            --sidebar-width: 220px;
         }
 
-        @media (prefers-color-scheme: light) {
+        @media (prefers-color-scheme: dark) {
             :root {
-                --main-bg-color: #ffffff;  /* Light background for light mode */
-                --sidebar-bg: #f5f5f5;  /* Light gray for sidebar */
-                --text-color: #ff0404;  /* Dark text for light mode */
-                --link-color: #0077cc;  /* Blue links for light mode */
-                --highlight-color: #2980b9; /* Highlighted text color */
-                --code-bg: #f4f4f4;  /* Light gray code background */
+                --bg: #0d1117;
+                --bg-subtle: #161b22;
+                --border: #30363d;
+                --text: #e6edf3;
+                --text-muted: #8b949e;
+                --link: #58a6ff;
+                --accent: #79c0ff;
+                --code-bg: #161b22;
             }
         }
 
+        *, *::before, *::after { box-sizing: border-box; }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--main-bg-color);
-            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             display: flex;
-            flex-direction: row;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 16px;
         }
 
+        /* Sidebar */
         #sidebar {
             position: fixed;
-            width: 200px;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
             height: 100vh;
-            padding: 20px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--table-border-color);
+            padding: 32px 16px;
+            background-color: var(--bg-subtle);
+            border-right: 1px solid var(--border);
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
-        #sidebar h2 {
-            font-size: 1.3em;
-            color: var(--link-color);
-            margin-bottom: 15px;
+        #sidebar .toc-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            padding: 0 8px;
         }
 
         #sidebar a {
             display: block;
-            padding: 5px 0;
-            color: var(--link-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 1em;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: background 0.15s, color 0.15s;
         }
 
         #sidebar a:hover {
-            text-decoration: underline;
+            background-color: var(--border);
+            color: var(--text);
         }
 
+        #sidebar a.toc-h1 { font-weight: 600; color: var(--text); }
+        #sidebar a.toc-h3 { padding-left: 20px; }
+
+        /* Main content */
         #content {
-            margin-left: 270px;
-            padding: 40px;
-            width: calc(100% - 270px);
+            margin-left: var(--sidebar-width);
+            padding: 48px 64px;
+            max-width: 860px;
+            width: 100%;
         }
 
-        h1, h2, h3 {
-            color: var(--highlight-color);
+        h1, h2, h3, h4 {
+            color: var(--text);
+            font-weight: 600;
+            line-height: 1.3;
+            margin-top: 2em;
+            margin-bottom: 0.5em;
         }
 
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
+        h1 { font-size: 1.9rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4em; }
+        h2 { font-size: 1.35rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+        h3 { font-size: 1.1rem; }
 
-        a:hover {
-            text-decoration: underline;
-        }
+        p { margin: 0.8em 0; }
 
+        a { color: var(--link); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Code */
         pre {
             background-color: var(--code-bg);
-            padding: 10px;
-            border-radius: 5px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
             overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.5;
         }
 
         code {
-            font-family: monospace;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.875em;
             background-color: var(--code-bg);
-            padding: 2px 5px;
-            border-radius: 3px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px 6px;
         }
 
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        /* Blockquote */
         blockquote {
-            background-color: var(--sidebar-bg);
-            padding: 10px;
-            border-left: 5px solid var(--link-color);
-            margin: 15px 0;
+            background-color: var(--bg-subtle);
+            border-left: 4px solid var(--link);
+            border-radius: 0 6px 6px 0;
+            margin: 1.2em 0;
+            padding: 12px 16px;
+            color: var(--text-muted);
         }
 
+        blockquote p { margin: 0; color: var(--text); }
+
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid var(--table-border-color);
+            margin: 1.2em 0;
+            font-size: 0.9rem;
         }
 
         th, td {
-            padding: 10px;
-            text-align: left;
+            padding: 8px 14px;
+            border: 1px solid var(--border);
+            text-align: center;
         }
 
         th {
-            background-color: #0070f1;
+            background-color: var(--bg-subtle);
+            font-weight: 600;
+            color: var(--text);
         }
 
-        /* Responsive Design */
+        td:first-child { text-align: left; font-weight: 500; }
+
+        tr:nth-child(even) td { background-color: var(--bg-subtle); }
+
+        /* Images */
+        img { max-width: 100%; border-radius: 6px; }
+
+        /* Horizontal rule */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2em 0;
+        }
+
+        /* Badges / inline images */
+        p img { vertical-align: middle; margin: 0 2px; }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
+            body { flex-direction: column; }
 
             #sidebar {
+                position: relative;
                 width: 100%;
                 height: auto;
-                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 16px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 6px;
             }
+
+            #sidebar .toc-label { width: 100%; }
 
             #content {
                 margin-left: 0;
-                padding: 20px;
+                padding: 24px 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar (Table of Contents) -->
     <nav id="sidebar">
-        <!-- <h2>Table of Contents</h2> -->
+        <div class="toc-label">Contents</div>
         <div id="toc"></div>
     </nav>
 
-    <!-- Main Content -->
     <main id="content">
-        <h1>$title$</h1>
         <article>
             $body$
         </article>
     </main>
 
     <script>
-        // Generating Table of Contents dynamically based on the header tags
         document.addEventListener("DOMContentLoaded", function () {
             const toc = document.getElementById("toc");
             const headers = document.querySelectorAll("h1, h2, h3");
 
             headers.forEach((header, index) => {
-                if (header.id === "") {
-                    header.id = "section-" + index;
-                }
+                if (!header.id) header.id = "section-" + index;
                 const link = document.createElement("a");
                 link.href = "#" + header.id;
-                link.textContent = header.textContent;
-                link.style.paddingLeft = (header.tagName === "H2" ? "10px" : header.tagName === "H3" ? "20px" : "0px");
+                link.textContent = header.textContent.replace(/^[^\w]+/, "").trim();
+                link.className = "toc-" + header.tagName.toLowerCase();
                 toc.appendChild(link);
             });
         });
