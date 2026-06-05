@@ -1,0 +1,26 @@
+# Core dependencies — required for P2, P3, P4
+torch>=2.0
+numpy
+scipy
+scikit-learn
+matplotlib
+tqdm
+pandas
+seaborn
+imageio
+opencv-python
+ipython
+
+# P1 — additionally requires an older version of pyforce (not compatible with v1.0.0).
+# The current public release may not be compatible; refer to the GitHub repo for version history:
+#   https://github.com/ERMETE-Lab/ROSE-pyforce
+# For assistance running P1, contact stefano.riva@polimi.it
+
+# P5 — additionally requires FEniCSx stack (install via conda, see below)
+# dolfinx==0.10.0
+# gmsh
+# mpi4py
+# petsc4py
+# ufl
+# basix
+# pyvista

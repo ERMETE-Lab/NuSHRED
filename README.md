@@ -89,11 +89,21 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 2️⃣ **Download the datasets** and move them into the appropriate directory.
 
 3️⃣ **Install the required dependencies:**
-   - Main dependencies: *pytorch*, *numpy*, *scikit-learn*, *matplotlib*, *scipy*, *pyvista*.
-   - For P1, **pyforce** is required, see [**installation instructions**](https://ermete-lab.github.io/ROSE-pyforce/installation.html#set-up-a-conda-environment-for-pyforce)
-   - For P5, **dolfinx-v.0.10.0** is required, see instructions in the directory **P5**.
 
-Other packages will be installed as part of the requirements.
+   **Base install** (required for P2, P3, P4):
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+   **P1** additionally requires an older version of `pyforce` (not compatible with v1.0.0), available at [github.com/ERMETE-Lab/ROSE-pyforce](https://github.com/ERMETE-Lab/ROSE-pyforce). For assistance running P1, please contact stefano.riva@polimi.it directly.
+
+   > **Note:** P1 is an earlier work included for completeness. **The primary contributions of this repository are P2–P5**, which only require the base `pip install -r requirements.txt` (plus FEniCSx for P5 if you want to generate the data yourself).
+
+   **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`). Install via conda:
+   ```bash
+   conda install -c conda-forge fenics-dolfinx=0.10.0 gmsh mpi4py pyvista
+   ```
+   See the [P5 README](Code/P5/README.md) for further details.
 
 ---
 
@@ -122,7 +132,7 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 |-------|---|---|---|
 | <img src="media/P2/flux1.gif" width="300"> | <img src="media/P2/T.gif" width="300"> | <img src="media/P2/U.gif" width="300"> | <img src="media/P2/prec1.gif" width="300"> |
 
-**Mobile Sensors (Fist Group of Precursors)**
+**Mobile Sensors (First Group of Precursors)**
 
 | Fast Flux $\phi_1$ | Temperature $T$ | Velocity $\mathbf{u}$ | Precursors Group 1 $c_1$ |
 |-------|---|---|---|
