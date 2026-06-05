@@ -2,7 +2,7 @@ import torch
 
 mae = lambda datatrue, datapred: (datatrue - datapred).abs().mean()
 mse = lambda datatrue, datapred: (datatrue - datapred).pow(2).sum(axis = -1).mean()
-mre = lambda datatrue, datapred: ((datatrue - datapred).pow(2).sum(axis = -1).sqrt() / (datatrue).pow(2).sum(axis = -1).sqrt()).mean()
+mre = lambda datatrue, datapred: ((datatrue - datapred).pow(2).sum(axis = -1).sqrt() / ((datatrue).pow(2).sum(axis = -1).sqrt() + 1e-8)).mean()
 num2p = lambda prob : ("%.2f" % (100*prob)) + "%"
 
 class TimeSeriesDataset(torch.utils.data.Dataset):
