@@ -21,7 +21,7 @@ This repository serves as complementary code to the following papers:
 
 - **[P4]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [![arXiv](https://img.shields.io/badge/%20TRIGA-2503.08908-b31b1b.svg)](https://arxiv.org/abs/2510.12368)
 
-- **[P5]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A., (2026). MF-SHRED
+- **[P5]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A., (2026). Multi-Fidelity Learning with Shallow Recurrent Decoders for Reactor Physics Applications. [![arXiv](https://img.shields.io/badge/Multi-Fidelity%20Learning-2503.08909-b31b1b.svg)](https://arxiv.org/abs/2606.05202)
 
 **Upcoming works**: two preprints on arxiv have been submitted on the application of SHRED to Fusion MHD systems (code will be released soon).
 
