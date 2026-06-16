@@ -5,20 +5,27 @@ from IPython.display import clear_output as clc
 from .processdata import mse, mre, num2p, weighted_mse
 
 class SHRED(torch.nn.Module):
+    """SHallow REcurrent Decoder (SHRED) network.
+
+    Combines an LSTM encoder that processes sensor time-series with a
+    fully-connected decoder that reconstructs the high-dimensional state.
+
+    Architecture:
+        LSTM  →  last hidden state  →  Linear(+Dropout+ReLU) × n  →  output
+    """
 
     def __init__(self, input_size, output_size, hidden_size = 64, hidden_layers = 2, decoder_sizes = [350, 400], dropout = 0.0):
-        '''
-        SHRED model definition
-        
-        
-        Inputs
-        	input size (e.g. number of sensors)
-        	output size (e.g. full-order variable dimension)
-        	size of LSTM hidden layers (default to 64)
-        	number of LSTM hidden layers (default to 2)
-        	list of decoder layers sizes (default to [350, 400])
-        	dropout parameter (default to 0)
-        '''
+        """
+        Args:
+            input_size (int): Number of input features per time step (e.g. number of sensors).
+            output_size (int): Dimension of the reconstructed state (e.g. full-order field size).
+            hidden_size (int): Number of units in each LSTM hidden layer. Default: 64.
+            hidden_layers (int): Number of stacked LSTM layers. Default: 2.
+            decoder_sizes (list[int]): Widths of the intermediate decoder layers.
+                The list is automatically prepended with ``hidden_size`` and
+                appended with ``output_size``. Default: [350, 400].
+            dropout (float): Dropout probability applied between decoder layers. Default: 0.0.
+        """
             
         super(SHRED,self).__init__()
 
@@ -41,7 +48,14 @@ class SHRED(torch.nn.Module):
         self.hidden_size = hidden_size
 
     def forward(self, x):
-        
+        """Run a forward pass through the SHRED model.
+
+        Args:
+            x (torch.Tensor): Input tensor of shape ``(batch, lag, input_size)``.
+
+        Returns:
+            torch.Tensor: Reconstructed state of shape ``(batch, output_size)``.
+        """
         h_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float).to(x.device)
         c_0 = torch.zeros((self.hidden_layers, x.size(0), self.hidden_size), dtype=torch.float).to(x.device)
         if next(self.parameters()).is_cuda:
@@ -57,39 +71,48 @@ class SHRED(torch.nn.Module):
         return output
 
     def freeze(self):
-
+        """Set the model to eval mode and disable gradient computation for all parameters."""
         self.eval()
-        
+
         for param in self.parameters():
             param.requires_grad = False
 
     def unfreeze(self):
-
+        """Set the model to train mode and re-enable gradient computation for all parameters."""
         self.train()
-        
+
         for param in self.parameters():
             param.requires_grad = True
 
-def fit(model: torch.nn.Module, train_dataset: torch.utils.data.Dataset, valid_dataset: torch.utils.data.Dataset, 
-        batch_size: int = 64, epochs: int = 4000, optim = torch.optim.Adam, lr: float = 1e-3, 
-        loss_function = mse, scaling_factor = None,
-        verbose = False, patience = 5):
-    '''
-    Neural networks training
-    
-    Inputs
-    	model (`torch.nn.Module`)
-    	training dataset (`torch.utils.data.Dataset`)
-    	validation dataset (`torch.utils.data.Dataset`)
-    	batch size (default to 64)
-    	number of epochs (default to 4000)
-    	optimizer (default to `torch.optim.Adam`)
-    	learning rate (default to 0.001)
-        loss function (default to mse)
-        scaling factor for weighted mse (default to None) # used only if loss_function is weighted_mse
-    	verbose parameter (default to False) 
-    	patience parameter (default to 5)
-    '''
+def fit(model: torch.nn.Module, train_dataset: torch.utils.data.Dataset, valid_dataset: torch.utils.data.Dataset,
+        batch_size: int = 64, epochs: int = 4000, optim: type = torch.optim.Adam, lr: float = 1e-3,
+        loss_function: callable = mse, scaling_factor: torch.Tensor = None,
+        verbose: bool = False, patience: int = 5):
+    """Train a model with early stopping based on validation loss.
+
+    Uses a closure-based optimizer step (compatible with second-order optimizers
+    such as L-BFGS) and loads the best-seen parameters before returning.
+
+    Args:
+        model (torch.nn.Module): The network to train (modified in-place).
+        train_dataset (torch.utils.data.Dataset): Training set.
+        valid_dataset (torch.utils.data.Dataset): Validation set used for early stopping.
+        batch_size (int): Mini-batch size. Default: 64.
+        epochs (int): Maximum number of training epochs. Default: 4000.
+        optim: Optimizer class (not an instance). Default: ``torch.optim.Adam``.
+        lr (float): Learning rate. Default: 1e-3.
+        loss_function: Callable ``(pred, target) -> scalar`` used during training.
+            Default: ``mse``.
+        scaling_factor: Feature-wise weights passed to ``weighted_mse``.
+            Ignored unless ``loss_function`` is ``weighted_mse``. Default: None.
+        verbose (bool): Print per-epoch progress to stdout. Default: False.
+        patience (int): Number of epochs without validation improvement before
+            stopping. Default: 5.
+
+    Returns:
+        tuple[np.ndarray, np.ndarray]: Arrays of per-epoch training and
+        validation MRE, respectively.
+    """
 
     train_loader = DataLoader(train_dataset, shuffle = True, batch_size = batch_size)
     optimizer = optim(model.parameters(), lr = lr)
@@ -145,16 +168,40 @@ def fit(model: torch.nn.Module, train_dataset: torch.utils.data.Dataset, valid_d
     valid_error = mre(valid_dataset.Y, model(valid_dataset.X)).detach().item()
     
     if verbose == True:
-    	print("Training done: Training loss = " + num2p(train_error) + " \t Validation loss = " + num2p(valid_error))
-    
+        print("Training done: Training loss = " + num2p(train_error) + " \t Validation loss = " + num2p(valid_error))
+
     return torch.tensor(train_error_list).detach().cpu().numpy(), torch.tensor(valid_error_list).detach().cpu().numpy()
 
 
-def fit_memory_efficient(model: torch.nn.Module, train_dataset: torch.utils.data.Dataset, valid_dataset: torch.utils.data.Dataset, 
-        batch_size: int = 64, epochs: int = 4000, optim = torch.optim.Adam, lr: float = 1e-3, 
-        loss_function = mse, scaling_factor = None,
-        verbose = False, patience = 5):
-    
+def fit_memory_efficient(model: torch.nn.Module, train_dataset: torch.utils.data.Dataset, valid_dataset: torch.utils.data.Dataset,
+        batch_size: int = 64, epochs: int = 4000, optim: type = torch.optim.Adam, lr: float = 1e-3,
+        loss_function: callable = mse, scaling_factor: torch.Tensor = None,
+        verbose: bool = False, patience: int = 5):
+    """Train a model with early stopping, computing errors batch-by-batch to reduce peak memory.
+
+    Unlike :func:`fit`, this variant never passes the entire dataset through the
+    model at once, making it suitable for large datasets or GPU-constrained environments.
+    Errors reported each epoch are averages of per-batch MRE values.
+
+    Args:
+        model (torch.nn.Module): The network to train (modified in-place).
+        train_dataset (torch.utils.data.Dataset): Training set.
+        valid_dataset (torch.utils.data.Dataset): Validation set used for early stopping.
+        batch_size (int): Mini-batch size. Default: 64.
+        epochs (int): Maximum number of training epochs. Default: 4000.
+        optim: Optimizer class (not an instance). Default: ``torch.optim.Adam``.
+        lr (float): Learning rate. Default: 1e-3.
+        loss_function: Callable ``(pred, target) -> scalar`` used during training.
+            Default: ``mse``.
+        scaling_factor: Feature-wise weights passed to ``weighted_mse``.
+            Ignored unless ``loss_function`` is ``weighted_mse``. Default: None.
+        verbose (bool): Print per-epoch progress and early-stopping messages. Default: False.
+        patience (int): Number of epochs without validation improvement before
+            stopping. Default: 5.
+
+    Returns:
+        tuple[list[float], list[float]]: Per-epoch training and validation MRE histories.
+    """
     # Data Loaders
     train_loader = DataLoader(train_dataset, shuffle = True, batch_size = batch_size)
     valid_loader = DataLoader(valid_dataset, shuffle = False, batch_size = batch_size)
@@ -232,17 +279,27 @@ def fit_memory_efficient(model: torch.nn.Module, train_dataset: torch.utils.data
     model.load_state_dict(best_params)
     return train_error_history, valid_error_history
             
-def forecast(forecaster, input_data, steps, nsensors):
-    '''
-    Forecast time series in time
-    Inputs
-    	forecaster model (`torch.nn.Module`)
-        starting time series of dimension (ntrajectories, lag, nsensors+nparams)
-    	number of forecasting steps
-        number of sensors
-    Outputs
-        forecast of the time series in time
-    '''   
+def forecast(forecaster: torch.nn.Module, input_data: torch.Tensor, steps: int, nsensors: int):
+    """Autoregressively forecast sensor trajectories over time.
+
+    At each step the model predicts the next sensor values, which are then
+    fed back as the last row of the rolling input window for the following step.
+    Parameter columns (indices ``nsensors:`` in the last dimension) remain fixed
+    throughout the rollout.
+
+    Args:
+        forecaster (torch.nn.Module): Trained model that maps
+            ``(batch, lag, nsensors+nparams)`` → ``(batch, nsensors)``.
+        input_data (torch.Tensor): Seed window of shape
+            ``(ntrajectories, lag, nsensors+nparams)``.  Modified in-place.
+        steps (int): Number of future time steps to predict.
+        nsensors (int): Number of sensor columns (leading columns in the last
+            dimension); used to slice predictions back into the window.
+
+    Returns:
+        torch.Tensor: Predicted sensor values stacked along the time axis,
+        shape ``(ntrajectories, steps, nsensors)``.
+    """
 
     forecast = []
     for i in range(steps):
@@ -254,14 +311,23 @@ def forecast(forecaster, input_data, steps, nsensors):
     return torch.stack(forecast, 1)
 
 def predict_in_batches(model: torch.nn.Module, dataset: torch.utils.data.Dataset, batch_size=64):
+    """Run inference on a dataset in mini-batches and return a single concatenated tensor.
+
+    Keeps peak GPU memory bounded regardless of dataset size by processing one
+    batch at a time and immediately moving each result back to CPU.
+
+    Args:
+        model (torch.nn.Module): Trained model in eval-compatible state.
+        dataset (torch.utils.data.Dataset): Dataset to run inference on.
+        batch_size (int): Number of samples per inference batch. Default: 64.
+
+    Returns:
+        torch.Tensor: Predictions for the full dataset, shape
+        ``(len(dataset), output_size)``, always on CPU.
     """
-    Runs inference on a dataset batch-by-batch to save memory, 
-    then concatenates the results.
-    """
-    # 1. Create a loader for the test set
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
-    device = next(model.parameters()).device  # Get the device of the model (GPU)
+    device = next(model.parameters()).device
     
     model.eval() # Set model to evaluation mode
     predictions = []
