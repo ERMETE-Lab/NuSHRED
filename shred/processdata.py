@@ -33,29 +33,39 @@ class TimeSeriesDataset(torch.utils.data.Dataset):
         return self.len
 
 
-def Padding(data, lag):
-    """Slide a fixed-length window over each trajectory and zero-pad the leading edge.
+def Padding(data: torch.Tensor, lag: int, fill_value: bool = False):
+    """Slide a fixed-length window over each trajectory and pad the leading edge.
 
     For each trajectory and each time step ``t``, extracts the window
-    ``data[traj, max(0, t-lag+1):t+1]`` and left-pads with zeros when
-    ``t < lag - 1``.  The result has one row per (trajectory, time) pair.
+    ``data[traj, max(0, t-lag+1):t+1]`` and left-pads when ``t < lag - 1``.
+    The result has one row per (trajectory, time) pair.
 
     Args:
         data (torch.Tensor): Input of shape
             ``(n_trajectories, sequence_length, n_features)``.
         lag (int): Length of each output window.
+        fill_value (bool): If False (default), pad missing steps with zeros.
+            If True, pad with the first value of each trajectory and feature,
+            i.e. ``data[traj, 0, :]``, which avoids the artificial discontinuity
+            at the start of the sequence.
 
     Returns:
         torch.Tensor: Windowed tensor of shape
         ``(n_trajectories * sequence_length, lag, n_features)``.
     """
-    
+
     data_out = torch.zeros(data.shape[0] * data.shape[1], lag, data.shape[2])
 
     for i in range(data.shape[0]):
         for j in range(1, data.shape[1] + 1):
             if j < lag:
-                data_out[i * data.shape[1] + j - 1, -j:] = data[i, :j]
+                pad_size = lag - j
+                if fill_value:
+                    pad = data[i, 0].unsqueeze(0).expand(pad_size, -1)
+                else:
+                    pad = torch.zeros(pad_size, data.shape[2])
+                data_out[i * data.shape[1] + j - 1, :pad_size] = pad
+                data_out[i * data.shape[1] + j - 1, pad_size:] = data[i, :j]
             else:
                 data_out[i * data.shape[1] + j - 1] = data[i, j - lag : j]
 
@@ -114,7 +124,7 @@ class SmartTimeSeriesDataset(torch.utils.data.Dataset):
     def __len__(self):
         return self.len
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         # Unravel the flat sample index into (trajectory, time-step) coordinates.
         traj_idx = index // self.n_time
         time_idx = index % self.n_time
