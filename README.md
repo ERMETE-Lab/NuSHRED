@@ -13,15 +13,15 @@ This repository collects the codes regarding the application of the **Shallow RE
 
 This repository serves as complementary code to the following papers:
 
-- **[P1]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors. *Progress in Nuclear Energy*, vol. 189, pp. 105928  [![arXiv](https://img.shields.io/badge/Ensemble%20SHRED-2409.12550-b31b1b.svg)](https://doi.org/10.1016/j.pnucene.2025.105928)
+- **[P1]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors. *Progress in Nuclear Energy*, vol. 189, pp. 105928  [![arXiv](https://img.shields.io/badge/Ensemble%20SHRED-ProgNucEne-b31b1b.svg)](https://doi.org/10.1016/j.pnucene.2025.105928)
 
-- **[P2]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks [![arXiv](https://img.shields.io/badge/Parametric%20MSFR-2503.08904-b31b1b.svg)](http://arxiv.org/abs/2503.08904)
+- **[P2]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks [![arXiv](https://img.shields.io/badge/Parametric%20MSFR-Arxiv.2503.08904-b31b1b.svg)](http://arxiv.org/abs/2503.08904)
 
-- **[P3]** Riva, S., Missaglia A., Introini, C., Kutz, J. N. & Cammi, A.(2026). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility [![arXiv](https://img.shields.io/badge/Verification&Validation%20DYNASTY-2503.08907-b31b1b.svg)](https://arxiv.org/abs/2503.08907)
+- **[P3]** Riva, S., Missaglia A., Introini, C., Kutz, J. N. & Cammi, A.(2026). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility [![arXiv](https://img.shields.io/badge/V&V%20DYNASTY-Arxiv.2503.08907-b31b1b.svg)](https://arxiv.org/abs/2503.08907)
 
-- **[P4]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [![arXiv](https://img.shields.io/badge/%20TRIGA-2503.08908-b31b1b.svg)](https://arxiv.org/abs/2510.12368)
+- **[P4]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [![arXiv](https://img.shields.io/badge/TRIGA-Arxiv.2510.12368-b31b1b.svg)](https://arxiv.org/abs/2510.12368)
 
-- **[P5]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A., (2026). Multi-Fidelity Learning with Shallow Recurrent Decoders for Reactor Physics Applications. [![arXiv](https://img.shields.io/badge/Multi-Fidelity%20Learning-2503.08909-b31b1b.svg)](https://arxiv.org/abs/2606.05202)
+- **[P5]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A., (2026). Multi-Fidelity Learning with Shallow Recurrent Decoders for Reactor Physics Applications. [![arXiv](https://img.shields.io/badge/Multi--Fidelity%20Learning-Arxiv.2606.05202-b31b1b.svg)](https://arxiv.org/abs/2606.05202)
 
 **Upcoming works**: two preprints on arxiv have been submitted on the application of SHRED to Fusion MHD systems (code will be released soon).
 
