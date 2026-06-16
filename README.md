@@ -105,6 +105,7 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
    > **Note:** All the SHRED-related code require the base `pip install -r requirements.txt` only.
 
+Two simple tutorials are available in the `Tutorial/` folder for Kolmogorov 2D Flow for single and multiparametric datasets, which can be executed as Jupyter notebooks.
 
 ---
 
