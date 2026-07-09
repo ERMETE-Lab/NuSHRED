@@ -3,19 +3,17 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Sequence
 
 import numpy as np
 from dolfinx import fem
 
+from models.config import PARAM_NAMES, DatasetConfig
 from models.solvers import AdvReactDiff_HF, AdvReactDiff_ODE, build_quadratic_reaction_tensor
 
-PARAM_NAMES = ("linear_scale", "source_t_peak", "source_pulse_width")
 LINEAR_SCALED_COLUMNS = (0, 1, 2)  # scale kinetics of species 0, 1, 2 (preserves column mass balance)
 SOURCE_SPECIES = (0, 2, 4)
-DEFAULT_VELOCITY_SCALE = 5.0
 
 # --- Fixed problem setup -----------------------------------------------------------------------
 
@@ -187,17 +185,6 @@ def run_hf_trajectory(
     return out
 
 
-@dataclass
-class DatasetConfig:
-    N: int = 50
-    num_species: int = 6
-    dt: float = 0.005
-    T_final: float = 10.0
-    save_every: int = 10
-    direct_solver: bool = False
-    velocity_scale: float = DEFAULT_VELOCITY_SCALE
-
-
 def generate_dataset(
     config: DatasetConfig,
     params: np.ndarray,
@@ -317,47 +304,3 @@ def save_dataset(data: dict, output_dir: str | Path) -> Path:
         )
 
     return output_dir
-
-
-def load_dataset(output_dir: str | Path) -> dict:
-    """Load a dataset written by :func:`save_dataset`."""
-    output_dir = Path(output_dir)
-    meta = np.load(output_dir / "params.npz")
-    mesh = np.load(output_dir / "mesh.npz")
-    lf = np.load(output_dir / "lf.npz")["data"]
-    num_species = int(meta["num_species"][0])
-
-    hf = np.stack(
-        [np.load(output_dir / f"hf_c{i}.npz")["data"] for i in range(num_species)],
-        axis=1,
-    )
-
-    cfg = DatasetConfig(
-        N=int(mesh["N"][0]),
-        num_species=num_species,
-        dt=float(meta["dt"][0]),
-        T_final=float(meta["T_final"][0]),
-        save_every=int(meta["save_every"][0]),
-        velocity_scale=float(meta["velocity_scale"][0]),
-    )
-
-    result = {
-        "params": meta["params"],
-        "param_names": meta["param_names"],
-        "times": meta["times"],
-        "nodes": mesh["nodes"],
-        "lf": lf,
-        "hf": hf,
-        "config": cfg,
-        "output_dir": output_dir,
-    }
-    if "timing_hf" in meta.files:
-        result["timing_hf"] = meta["timing_hf"]
-        result["timing_lf"] = meta["timing_lf"]
-    return result
-
-
-def case_label(params_row: np.ndarray, case_idx: int) -> str:
-    """Short label for dropdown menus."""
-    ls, tp, w = params_row
-    return f"case {case_idx}: linear={ls:g}, t_peak={tp:g}, width={w:g}"
