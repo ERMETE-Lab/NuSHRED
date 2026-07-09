@@ -37,6 +37,7 @@ The compressed simulation datasets are available on **Zenodo**:
 - **[D3]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
 - **[D4]** CFD model of TRIGA Mark II Reactor - Single Transient (Reconstruction mode)
 - **[D5]** Neutronics Model using Diffusion and Point Kinetics LRA benchmark reactor
+- **[D6]** Non-Linear Reaction-Diffusion-Advection of multiple species (High-Fidelity PDE and Low-Fidelity ODE model)
 
 🎥 If you want to know more about the SHRED method for nuclear reactors, check out this [**YouTube video**](https://www.youtube.com/watch?v=AUuGhojLiFk)!
 
@@ -74,13 +75,13 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 📁 **Code/** → Subfolders corresponding to the applications of SHRED in nuclear reactor concepts, with datasets associated as follows:
 
-|        | MSFR-ULOFF D1 | MSFR-ULOFF D2 | DYNASTY D3 | TRIGA D4 | LRA D5 |
-| ------ | :-----------: | :-----------: | :--------: | :------: | :----: |
-| **P1** |       ✅       |               |            |          |        |
-| **P2** |               |       ✅       |            |          |        |
-| **P3** |               |               |     ✅      |          |        |
-| **P4** |               |               |            |    ✅     |        |
-| **P5** |               |               |            |          |   ✅    |
+|        | MSFR-ULOFF D1 | MSFR-ULOFF D2 | DYNASTY D3 | TRIGA D4 | LRA D5 | RDA D6 |
+| ------ | :-----------: | :-----------: | :--------: | :------: | :----: | :----: |
+| **P1** |       ✅       |               |            |          |        |        |
+| **P2** |               |       ✅       |            |          |        |        |
+| **P3** |               |               |     ✅      |          |        |        |
+| **P4** |               |               |            |    ✅     |        |        |
+| **P5** |               |       ✅       |            |          |   ✅    |   ✅    |
 
 ## ▶️ How to Execute
 
@@ -162,5 +163,11 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 | <img src="media/P4/T.gif" width="300"> | <img src="media/P4/U.gif" width="300"> |
 
 ### 📌 Paper 5
-<img src="media/P5/mfshred-diffusion.png" width="500">
+| Neutronics                                              |
+| -------------------------------------- |
+| <img src="media/P5/mfshred-neutronics.png" width="400"> |
+
+| Reaction Diffusion Advection                            |
+| -------------------------------------- |
+|<img src="media/P5/mfshred-rda.gif" width="400"> |
 
