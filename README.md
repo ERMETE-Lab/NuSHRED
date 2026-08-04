@@ -1,7 +1,7 @@
 # Shallow Recurrent Decoder for Nuclear Reactors Applications (NuSHRED)
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.8%2B-magenta.svg)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.10%2B-magenta.svg)](https://www.python.org/)
 [![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.20554287-blue.svg)](https://doi.org/10.5281/zenodo.20554287)
 [![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://www.youtube.com/watch?v=AUuGhojLiFk)
 
@@ -89,22 +89,27 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 2️⃣ **Download the datasets** and move them into the appropriate directory.
 
-3️⃣ **Install the required dependencies:**
+3️⃣ **Install the required dependencies**, using [uv](https://docs.astral.sh/uv/):
 
-   **Base install**:
+   **Base install** (covers P2, P3, P4 and the Tutorials):
    ```bash
-   pip install -r requirements.txt
+   uv sync
    ```
 
-   **P1** additionally requires an older version of `pyforce` (not compatible with v1.0.0), available at [github.com/ERMETE-Lab/ROSE-pyforce](https://github.com/ERMETE-Lab/ROSE-pyforce) *for some notebooks*. For assistance running P1, please contact stefano.riva@polimi.it directly.
-
-   **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`) if you want to generate the data yourself. Install via conda:
+   **P1** additionally requires [`pyforce`](https://github.com/ERMETE-Lab/ROSE-pyforce) (v1.0.0, installed directly from GitHub — it is not published on PyPI) for the sensor-placement (EIM/GEIM) notebooks:
    ```bash
+   uv sync --extra p1
+   ```
+
+   **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`) *only if you want to regenerate the raw data yourself* — dolfinx isn't available on PyPI, so it must be installed via a separate conda environment:
+   ```bash
+   conda create -n dolf python=3.10
+   conda activate dolf
    conda install -c conda-forge fenics-dolfinx=0.10.0 gmsh mpi4py pyvista
    ```
-   See the [P5 README](Code/P5/README.md) for further details.
+   If you use the pre-generated data from Zenodo instead, dolfinx is **not** needed. See the [P5 README](Code/P5/README.md) for further details.
 
-   > **Note:** All the SHRED-related code require the base `pip install -r requirements.txt` only.
+   Optionally, set `NUSHRED_DATA_DIR` to control where `Code/download_datasets.py` places downloaded datasets (default: `NuSHRED_Datasets/` at the repo root).
 
 Two simple tutorials are available in the `Tutorial/` folder for Kolmogorov 2D Flow for single and multiparametric datasets, which can be executed as Jupyter notebooks.
 

@@ -75,30 +75,32 @@ def download_specific_zenodo_files(record_id, output_dir, files_to_download=None
 if __name__ == "__main__":
     # Get the directory where this script actually lives
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Define the default path as one level up from the script
-    default_out = os.path.join(script_dir, "..", "NuSHRED_Datasets")
+    # Default output: $NUSHRED_DATA_DIR if set, otherwise one level up from the script
+    default_out = os.environ.get(
+        "NUSHRED_DATA_DIR", os.path.join(script_dir, "..", "NuSHRED_Datasets")
+    )
 
     parser = argparse.ArgumentParser(description="Download specific dataset files from Zenodo.")
-    
+
     parser.add_argument(
-        "-f", "--files", 
-        nargs="*", 
-        default=None, 
+        "-f", "--files",
+        nargs="*",
+        default=None,
         help="List of specific datasets to download (e.g., D1 D2). If omitted, downloads all."
     )
-    
+
     parser.add_argument(
-        "-r", "--record", 
-        type=str, 
-        default="20554287", 
+        "-r", "--record",
+        type=str,
+        default="20554287",
         help="Zenodo record ID (default: 20554287)"
     )
-    
+
     parser.add_argument(
-        "-o", "--output", 
-        type=str, 
-        default=default_out, 
-        help="Target output folder (default: parent directory of script / NuSHRED_Datasets)"
+        "-o", "--output",
+        type=str,
+        default=default_out,
+        help="Target output folder (default: $NUSHRED_DATA_DIR, or parent directory of script / NuSHRED_Datasets)"
     )
 
     args = parser.parse_args()
