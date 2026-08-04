@@ -32,19 +32,18 @@ The compressed simulation datasets are available on **Zenodo**:
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20554287.svg)](https://doi.org/10.5281/zenodo.20554287)
 
-- **[D1]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Single Transient (Reconstruction mode)
-- **[D2]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients
-- **[D3]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
-- **[D4]** CFD model of TRIGA Mark II Reactor - Single Transient (Reconstruction mode)
-- **[D5]** Neutronics Model using Diffusion and Point Kinetics LRA benchmark reactor
-- **[D6]** Non-Linear Reaction-Diffusion-Advection of multiple species (High-Fidelity PDE and Low-Fidelity ODE model)
+- **[MSFR]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients (includes the single-transient reconstruction case used by P1)
+- **[DYNASTY]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
+- **[TRIGA]** CFD model of TRIGA Mark II Reactor - Single Transient (Reconstruction mode)
+- **[LRA-neutronics]** Neutronics Model using Diffusion and Point Kinetics LRA benchmark reactor
+- **[RDA]** Non-Linear Reaction-Diffusion-Advection of multiple species (High-Fidelity PDE and Low-Fidelity ODE model)
 
 🎥 If you want to know more about the SHRED method for nuclear reactors, check out this [**YouTube video**](https://www.youtube.com/watch?v=AUuGhojLiFk)!
 
 You can use the script `Code/download_datasets.py` to download the datasets (if `files` argument is not specified, all datasets will be downloaded):
 
 ```bash
-python Code/download_datasets.py --files D1 D2
+python Code/download_datasets.py --files MSFR DYNASTY
 ```
 
 ---
@@ -75,13 +74,13 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 📁 **Code/** → Subfolders corresponding to the applications of SHRED in nuclear reactor concepts, with datasets associated as follows:
 
-|        | MSFR-ULOFF D1 | MSFR-ULOFF D2 | DYNASTY D3 | TRIGA D4 | LRA D5 | RDA D6 |
-| ------ | :-----------: | :-----------: | :--------: | :------: | :----: | :----: |
-| **P1** |       ✅       |               |            |          |        |        |
-| **P2** |               |       ✅       |            |          |        |        |
-| **P3** |               |               |     ✅      |          |        |        |
-| **P4** |               |               |            |    ✅     |        |        |
-| **P5** |               |       ✅       |            |          |   ✅    |   ✅    |
+|        | MSFR | DYNASTY | TRIGA | LRA-neutronics | RDA |
+| ------ | :--: | :-----: | :---: | :------------: | :-: |
+| **P1** |  ✅   |         |       |                 |     |
+| **P2** |  ✅   |         |       |                 |     |
+| **P3** |      |    ✅    |       |                 |     |
+| **P4** |      |         |   ✅   |                 |     |
+| **P5** |  ✅   |         |       |        ✅        |  ✅  |
 
 ## ▶️ How to Execute
 

@@ -86,7 +86,7 @@ if __name__ == "__main__":
         "-f", "--files",
         nargs="*",
         default=None,
-        help="List of specific datasets to download (e.g., D1 D2). If omitted, downloads all."
+        help="List of specific datasets to download (e.g., MSFR DYNASTY). If omitted, downloads all."
     )
 
     parser.add_argument(

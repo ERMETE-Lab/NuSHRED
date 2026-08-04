@@ -24,6 +24,7 @@ dependencies = [
     'ipykernel',
     "tqdm",
     "requests",
+    "python-dotenv",
 ]
 
 [project.optional-dependencies]

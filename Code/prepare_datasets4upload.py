@@ -18,11 +18,11 @@ def prepare_zenodo_upload(base_dir="NuSHRED_Datasets"):
     junk_dirs = {'__pycache__', '.ipynb_checkpoints', '.pytest_cache'}
     junk_files = {'.DS_Store', 'Thumbs.db'}
 
-    # 2. Dynamically find all subdirectories starting with 'D' (D1, D2, ..., Dn)
-    dataset_dirs = [d for d in base_path.iterdir() if d.is_dir() and d.name.startswith('D')]
-    
+    # 2. Dynamically find all dataset subdirectories (skip hidden/cache dirs)
+    dataset_dirs = [d for d in base_path.iterdir() if d.is_dir() and not d.name.startswith('.')]
+
     if not dataset_dirs:
-        print(f"No dataset directories (starting with 'D') found in {base_path.resolve()}.")
+        print(f"No dataset directories found in {base_path.resolve()}.")
         return
 
     print(f"Found {len(dataset_dirs)} dataset directories. Starting preparation...\n")
