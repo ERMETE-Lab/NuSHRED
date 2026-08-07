@@ -104,6 +104,13 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
    uv sync --extra p1
    ```
 
+   **Conda / pip alternative:** if you already use a conda environment, an editable install is equivalent:
+   ```bash
+   python -m pip install -e .          # base (P2–P5)
+   python -m pip install -e ".[p1]"  # + pyforce for P1 EIM/GEIM
+   ```
+   If you manage PyTorch via conda (e.g. for CUDA), install it first, then use `pip install -e . --no-deps` and add the remaining dependencies manually to avoid conflicts.
+
    **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`) *only if you want to regenerate the raw data yourself* — dolfinx isn't available on PyPI, so it must be installed via a separate conda environment:
    ```bash
    conda create -n dolf python=3.10
@@ -111,8 +118,6 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
    conda install -c conda-forge fenics-dolfinx=0.10.0 gmsh mpi4py pyvista
    ```
    If you use the pre-generated data from Zenodo instead, dolfinx is **not** needed. See the [P5 README](Code/P5/README.md) for further details.
-
-   **P1** notebooks additionally need `uv sync --extra p1`; **P5** data-generation notebooks need a separate conda environment with `dolfinx` (see [P5 README](Code/P5/README.md)). Pre-generated P5 data are available on Zenodo.
 
 4️⃣ **Open the notebooks** in the relevant `Code/P*/` folder. Each paper directory has its own README with the recommended execution order.
 
