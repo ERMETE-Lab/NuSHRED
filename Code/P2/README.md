@@ -1,42 +1,32 @@
-# P2: Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks
+# P2: Parametric State Estimation in Circulating Fuel Reactors
 
-This folder collects the supporting notebooks of the following paper:
+Notebooks supporting:
 
-- S. Riva, C. Introini, J. N. Kutz and A. Cammi, “Towards Efficient State Estimation in
-Circulating Fuel Reactors with Shallow Recurrent Decoder Networks,” 2025. preprint available at
-[https://arxiv.org/abs/2503.08904](arxiv.org/abs/2503.08904).
+> Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks. [arXiv:2503.08904](https://arxiv.org/abs/2503.08904)
 
-On [Zenodo](https://zenodo.org/records/15015236), the simulation data (compressed) are available.
+## Dataset
 
-In case interested to the raw data, please contact antonio.cammi@polimi.it.
+**[MSFR](https://doi.org/10.5281/zenodo.20554287)** — parametric ULOFF transients (same archive as P1).
 
-- `01_svd.ipynb` is a preliminary analysis of the dataset through the Singular Value Decomposition.
-- `02_shred_outcore.ipynb` is the key file supporting the paper, in which the SHRED method is applied to the parametric MSFR-ULOFF dataset (D2) adopting out-core fast flux sensor measurements.
-- `03_sensitivity_ensemblesize.ipynb` is a sensitivity analysis of the ensemble size on the SHRED models.
-- `04a_shred_mobile_sensors.ipynb` is the notebook supporting the paper, in which the SHRED method is applied to the parametric MSFR-ULOFF dataset (D2) adopting mobile sensors for the first group of precursors.
-- `04b_shred_mobile_probes.ipynb` is the notebook supporting the paper, in which the SHRED method is applied to the parametric MSFR-ULOFF dataset (D2) adopting mobile probes measuring only the position.
-- `05_comparison_shred_online.ipynb` is a comparison between the different sensing strategies, i.e., out-core sensors, mobile sensors, and mobile probes.
+```bash
+uv run python Code/download_datasets.py --files MSFR
+```
 
-Gifs can be found in the [`media` folder](https://github.com/ERMETE-Lab/NuSHRED/tree/main/media/P2):
+Data path in notebooks: `$NUSHRED_DATA_DIR/MSFR/`.
 
-### Fast Flux $\phi_1$
+## Requirements
 
-| Outcore | Mobile Sensor | Mobile Probe |
-|---------|---------------|--------------|
-| <img src="../../media/P2/flux1.gif" width="300"> | <img src="../../media/P2/flux1_mobile_sens.gif" width="300"> | <img src="../../media/P2/flux1_mobile_probes.gif" width="300"> |
+```bash
+uv sync
+```
 
+## Notebooks
 
-### First Group of Precursors $c_1$
-| Outcore | Mobile Sensor | Mobile Probe |
-|---------|---------------|--------------|
-| <img src="../../media/P2/prec1.gif" width="300"> | <img src="../../media/P2/prec1_mobile_sens.gif" width="300"> | <img src="../../media/P2/prec1_mobile_probes.gif" width="300"> |
-
-# Temperature $T$
-| Outcore | Mobile Sensor | Mobile Probe |
-|---------|---------------|--------------|
-| <img src="../../media/P2/T.gif" width="300"> | <img src="../../media/P2/T_mobile_sens.gif" width="300"> | <img src="../../media/P2/T_mobile_probes.gif" width="300"> |
-
-# Velocity $\mathbf{u}$
-| Outcore | Mobile Sensor | Mobile Probe |
-|---------|---------------|--------------|
-| <img src="../../media/P2/U.gif" width="300"> | <img src="../../media/P2/U_mobile_sens.gif" width="300"> | <img src="../../media/P2/U_mobile_probes.gif" width="300"> |
+| Notebook | Description |
+| -------- | ----------- |
+| `01_svd.ipynb` | SVD analysis of the parametric MSFR dataset |
+| `02_shred_outcore.ipynb` | **Main paper notebook** — out-core fast-flux sensors |
+| `03_sensitivity_ensemblesize.ipynb` | Sensitivity to ensemble size |
+| `04a_shred_mobile_sensors.ipynb` | Mobile in-core sensors (precursor group 1) |
+| `04b_shred_mobile_probes.ipynb` | Mobile probes (position only) |
+| `05_comparison_shred_online.ipynb` | Comparison of sensing strategies |

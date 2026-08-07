@@ -1,12 +1,31 @@
-# P3: Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks
+# P3: SHRED on the DYNASTY Experimental Facility
 
-This folder collects the supporting notebooks of the following paper:
+Notebooks supporting:
 
-- C. Introini, S. Riva, J. N. Kutz and A. Cammi, “From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility,” 2025. preprint available at
-[https://arxiv.org/abs/2503.08907](arxiv.org/abs/2503.08907).
+> Riva, S., Missaglia, A., Introini, C., Kutz, J. N. & Cammi, A. (2026). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility. [arXiv:2503.08907](https://arxiv.org/abs/2503.08907)
 
-On [Zenodo](https://zenodo.org/records/15015236), the simulation data (compressed) are available.
+## Dataset
 
-The data are been rescaled in the range [0,1] to ensure an open sharing of them.
+**[DYNASTY](https://doi.org/10.5281/zenodo.20554287)** — RELAP5 model and experimental data (single transient and parametric cases).
 
-The notebook `01_shred_verification_parametric.ipynb` verifies the SHRED using synthetic data only from dataset D3. The notebook `02a_shred_validation_parametric.ipynb` investigates the training with simulation data (parametric scenarios) and later deployment with experimental data. The last notebook `02b_shred_validation_forecasting.ipynb` analyses the prediction capabilities of the SHRED network beyond in time.
+```bash
+uv run python Code/download_datasets.py --files DYNASTY
+```
+
+Data path in notebooks: `$NUSHRED_DATA_DIR/DYNASTY/`.
+
+Simulation data shared on Zenodo are rescaled to $[0, 1]$ for open distribution.
+
+## Requirements
+
+```bash
+uv sync
+```
+
+## Notebooks
+
+| Notebook | Description |
+| -------- | ----------- |
+| `01_shred_verification_parametric.ipynb` | Verification on synthetic (model-only) parametric transients |
+| `02a_shred_validation_parametric.ipynb` | Validation — train on simulation, test on experiment |
+| `02b_shred_validation_forecasting.ipynb` | Forecasting beyond the training window |
