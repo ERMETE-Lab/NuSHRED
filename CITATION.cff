@@ -8,15 +8,25 @@ authors:
   - family-names: Riva
     given-names: Stefano
     email: stefano.riva@autodesk.com
+    affiliations:
+      - name: Autodesk Research
+      - name: Politecnico di Milano
   - family-names: Introini
     given-names: Carolina
     email: carolina.introini@polimi.it
+    affiliations:
+      - name: Politecnico di Milano
   - family-names: Cammi
     given-names: Antonio
     email: antonio.cammi@polimi.it
+    affiliations:
+      - name: Politecnico di Milano
   - family-names: Kutz
     given-names: J. Nathan
     email: nathan.kutz@autodesk.com
+    affiliations:
+      - name: Autodesk Research
+      - name: University of Washington
 repository-code: "https://github.com/ERMETE-Lab/NuSHRED"
 url: "https://github.com/ERMETE-Lab/NuSHRED"
 license: MIT
@@ -35,12 +45,22 @@ preferred-citation:
   authors:
     - family-names: Riva
       given-names: Stefano
+      affiliations:
+        - name: Autodesk Research
+        - name: Politecnico di Milano
     - family-names: Introini
       given-names: Carolina
+      affiliations:
+        - name: Politecnico di Milano
     - family-names: Cammi
       given-names: Antonio
+      affiliations:
+        - name: Politecnico di Milano
     - family-names: Kutz
       given-names: J. Nathan
+      affiliations:
+        - name: Autodesk Research
+        - name: University of Washington
   doi: 10.5281/zenodo.13789584
   url: "https://doi.org/10.5281/zenodo.13789584"
 
