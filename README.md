@@ -123,7 +123,7 @@ Two simple tutorials are available in the `Tutorial/` folder for Kolmogorov 2D F
 ## 📬 Contact Information
 
 For inquiries, please contact:
-📧 stefano.riva@polimi.it, carolina.introini@polimi.it, antonio.cammi@polimi.it, kutz@uw.edu.
+📧 stefano.riva@autodesk.com, carolina.introini@polimi.it, antonio.cammi@polimi.it, nathan.kutz@autodesk.com.
 
 For **issues** or **bugs**, refer to the **GitHub Issues** section of this repository.
 
