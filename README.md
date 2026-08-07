@@ -1,8 +1,8 @@
 # Shallow Recurrent Decoder for Nuclear Reactors Applications (NuSHRED)
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.8%2B-magenta.svg)](https://www.python.org/)
-[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.20554287-blue.svg)](https://doi.org/10.5281/zenodo.20554287)
+[![Python](https://img.shields.io/badge/python-3.10%2B-magenta.svg)](https://www.python.org/)
+[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.13789584-blue.svg)](https://doi.org/10.5281/zenodo.13789584)
 [![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://www.youtube.com/watch?v=AUuGhojLiFk)
 
 This repository collects the codes regarding the application of the **Shallow REcurrent Decoder** (SHRED) method to **Nuclear Reactors** systems 🏭⚛️
@@ -17,11 +17,11 @@ This repository serves as complementary code to the following papers:
 
 - **[P2]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks [![arXiv](https://img.shields.io/badge/Parametric%20MSFR-Arxiv.2503.08904-b31b1b.svg)](http://arxiv.org/abs/2503.08904)
 
-- **[P3]** Riva, S., Missaglia A., Introini, C., Kutz, J. N. & Cammi, A.(2026). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility [![arXiv](https://img.shields.io/badge/V&V%20DYNASTY-Arxiv.2503.08907-b31b1b.svg)](https://arxiv.org/abs/2503.08907)
+- **[P3]** Riva, S., Missaglia A., Introini, C., Kutz, J. N. & Cammi, A. (2026). From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility [![arXiv](https://img.shields.io/badge/V&V%20DYNASTY-Arxiv.2503.08907-b31b1b.svg)](https://arxiv.org/abs/2503.08907)
 
 - **[P4]** Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [![arXiv](https://img.shields.io/badge/TRIGA-Arxiv.2510.12368-b31b1b.svg)](https://arxiv.org/abs/2510.12368)
 
-- **[P5]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A., (2026). Multi-Fidelity Learning with Shallow Recurrent Decoders for Reactor Physics Applications. [![arXiv](https://img.shields.io/badge/Multi--Fidelity%20Learning-Arxiv.2606.05202-b31b1b.svg)](https://arxiv.org/abs/2606.05202)
+- **[P5]** Riva, S., Introini, C., Kutz, J. N. & Cammi, A., (2026). Multi-Fidelity Learning with Shallow Recurrent Decoders for Multi-Physics Applications. [![arXiv](https://img.shields.io/badge/Multi--Fidelity%20Learning-Arxiv.2606.05202-b31b1b.svg)](https://arxiv.org/abs/2606.05202)
 
 **Upcoming works**: two preprints on arxiv have been submitted on the application of SHRED to Fusion MHD systems (code will be released soon).
 
@@ -30,22 +30,25 @@ This repository serves as complementary code to the following papers:
 ## 📊 Simulation Data
 The compressed simulation datasets are available on **Zenodo**:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20554287.svg)](https://doi.org/10.5281/zenodo.20554287)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13789584.svg)](https://doi.org/10.5281/zenodo.13789584)
 
-- **[D1]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Single Transient (Reconstruction mode)
-- **[D2]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients
-- **[D3]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
-- **[D4]** CFD model of TRIGA Mark II Reactor - Single Transient (Reconstruction mode)
-- **[D5]** Neutronics Model using Diffusion and Point Kinetics LRA benchmark reactor
-- **[D6]** Non-Linear Reaction-Diffusion-Advection of multiple species (High-Fidelity PDE and Low-Fidelity ODE model)
+- **[MSFR]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients (includes the single-transient reconstruction case used by P1)
+- **[DYNASTY]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
+- **[TRIGA]** CFD model of TRIGA Mark II Reactor - Single Transient (Reconstruction mode)
+- **[LRA-neutronics]** Neutronics Model using Diffusion and Point Kinetics LRA benchmark reactor
+- **[RDA]** Non-Linear Reaction-Diffusion-Advection of multiple species (High-Fidelity PDE and Low-Fidelity ODE model)
 
 🎥 If you want to know more about the SHRED method for nuclear reactors, check out this [**YouTube video**](https://www.youtube.com/watch?v=AUuGhojLiFk)!
 
 You can use the script `Code/download_datasets.py` to download the datasets (if `files` argument is not specified, all datasets will be downloaded):
 
 ```bash
-python Code/download_datasets.py --files D1 D2
+uv run python Code/download_datasets.py --files MSFR DYNASTY
 ```
+
+See [Code/README.md](Code/README.md) for download options and dataset preparation.
+
+To cite the repository or datasets, see [`CITATION.cff`](CITATION.cff) (concept DOI: [10.5281/zenodo.13789584](https://doi.org/10.5281/zenodo.13789584)).
 
 ---
 
@@ -73,47 +76,54 @@ Additionally, the [*pyforce* package](https://github.com/ERMETE-Lab/ROSE-pyforce
 
 📁 **shred/** → Modules for the implementation of the SHRED network from [**github.com/Jan-Williams/pyshred**](https://github.com/Jan-Williams/pyshred) and [**github.com/MatteoTomasetto/SHRED-ROM**](https://github.com/MatteoTomasetto/SHRED-ROM)
 
-📁 **Code/** → Subfolders corresponding to the applications of SHRED in nuclear reactor concepts, with datasets associated as follows:
+📁 **Code/** → Subfolders `P1`–`P5` with notebooks and paper-specific utilities. See [Code/README.md](Code/README.md); each paper folder has its own README (`Code/P1/README.md`, …). Datasets associated as follows:
 
-|        | MSFR-ULOFF D1 | MSFR-ULOFF D2 | DYNASTY D3 | TRIGA D4 | LRA D5 | RDA D6 |
-| ------ | :-----------: | :-----------: | :--------: | :------: | :----: | :----: |
-| **P1** |       ✅       |               |            |          |        |        |
-| **P2** |               |       ✅       |            |          |        |        |
-| **P3** |               |               |     ✅      |          |        |        |
-| **P4** |               |               |            |    ✅     |        |        |
-| **P5** |               |       ✅       |            |          |   ✅    |   ✅    |
+|        | MSFR  | DYNASTY | TRIGA | LRA-neutronics |  RDA  |
+| ------ | :---: | :-----: | :---: | :------------: | :---: |
+| **P1** |   ✅   |         |       |                |       |
+| **P2** |   ✅   |         |       |                |       |
+| **P3** |       |    ✅    |       |                |       |
+| **P4** |       |         |   ✅   |                |       |
+| **P5** |   ✅   |         |       |       ✅        |   ✅   |
 
 ## ▶️ How to Execute
 
 1️⃣ **Clone or download** the repository.
 
-2️⃣ **Download the datasets** and move them into the appropriate directory.
+2️⃣ **Download the datasets** with `Code/download_datasets.py` (extracted by default to `NuSHRED_Datasets/` at the repo root). Optionally copy [`.env.example`](.env.example) to `.env` and set `NUSHRED_DATA_DIR` if you store data elsewhere.
 
-3️⃣ **Install the required dependencies:**
+3️⃣ **Install the required dependencies**, using [uv](https://docs.astral.sh/uv/):
 
-   **Base install**:
+   **Base install** (covers P2, P3, P4 and the Tutorials):
    ```bash
-   pip install -r requirements.txt
+   uv sync
    ```
 
-   **P1** additionally requires an older version of `pyforce` (not compatible with v1.0.0), available at [github.com/ERMETE-Lab/ROSE-pyforce](https://github.com/ERMETE-Lab/ROSE-pyforce) *for some notebooks*. For assistance running P1, please contact stefano.riva@polimi.it directly.
-
-   **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`) if you want to generate the data yourself. Install via conda:
+   **P1** additionally requires [`pyforce`](https://github.com/ERMETE-Lab/ROSE-pyforce) (v1.0.0, installed directly from GitHub — it is not published on PyPI) for the sensor-placement (EIM/GEIM) notebooks:
    ```bash
+   uv sync --extra p1
+   ```
+
+   **P5** additionally requires FEniCSx (dolfinx v0.10.0) and its dependencies (`gmsh`, `mpi4py`, `petsc4py`, `ufl`, `basix`, `pyvista`) *only if you want to regenerate the raw data yourself* — dolfinx isn't available on PyPI, so it must be installed via a separate conda environment:
+   ```bash
+   conda create -n dolf python=3.10
+   conda activate dolf
    conda install -c conda-forge fenics-dolfinx=0.10.0 gmsh mpi4py pyvista
    ```
-   See the [P5 README](Code/P5/README.md) for further details.
+   If you use the pre-generated data from Zenodo instead, dolfinx is **not** needed. See the [P5 README](Code/P5/README.md) for further details.
 
-   > **Note:** All the SHRED-related code require the base `pip install -r requirements.txt` only.
+   **P1** notebooks additionally need `uv sync --extra p1`; **P5** data-generation notebooks need a separate conda environment with `dolfinx` (see [P5 README](Code/P5/README.md)). Pre-generated P5 data are available on Zenodo.
 
-Two simple tutorials are available in the `Tutorial/` folder for Kolmogorov 2D Flow for single and multiparametric datasets, which can be executed as Jupyter notebooks.
+4️⃣ **Open the notebooks** in the relevant `Code/P*/` folder. Each paper directory has its own README with the recommended execution order.
+
+Two simple tutorials are available in the `Tutorial/` folder for Kolmogorov 2D Flow (single- and multi-parametric datasets).
 
 ---
 
 ## 📬 Contact Information
 
 For inquiries, please contact:
-📧 stefano.riva@polimi.it, carolina.introini@polimi.it, antonio.cammi@polimi.it, kutz@uw.edu.
+📧 stefano.riva@autodesk.com, carolina.introini@polimi.it, antonio.cammi@polimi.it, nathan.kutz@autodesk.com.
 
 For **issues** or **bugs**, refer to the **GitHub Issues** section of this repository.
 
@@ -141,7 +151,7 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 | ------------------------------------------------------ | -------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------ |
 | <img src="media/P2/flux1_mobile_sens.gif" width="300"> | <img src="media/P2/T_mobile_sens.gif" width="300"> | <img src="media/P2/U_mobile_sens.gif" width="300"> | <img src="media/P2/prec1_mobile_sens.gif" width="300"> |
 
-**Mobile Probes (only position measaured)**
+**Mobile Probes (only position measured)**
 
 | Fast Flux $\phi_1$                                       | Temperature $T$                                      | Velocity $\mathbf{u}$                                | Precursors Group 1 $c_1$                                 |
 | -------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------- |
@@ -164,10 +174,10 @@ For **issues** or **bugs**, refer to the **GitHub Issues** section of this repos
 
 ### 📌 Paper 5
 | Neutronics                                              |
-| -------------------------------------- |
+| ------------------------------------------------------- |
 | <img src="media/P5/mfshred-neutronics.png" width="400"> |
 
-| Reaction Diffusion Advection                            |
-| -------------------------------------- |
-|<img src="media/P5/mfshred-rda.gif" width="400"> |
+| Reaction Diffusion Advection                     |
+| ------------------------------------------------ |
+| <img src="media/P5/mfshred-rda.gif" width="400"> |
 

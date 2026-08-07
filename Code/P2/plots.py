@@ -4,7 +4,7 @@ import numpy as np
 from scipy.interpolate import griddata
 
 
-def get_msfr_geometry(ax, show_ticks = False):
+def plot_msfr_regions(ax, show_ticks = False):
     # Defining the rectangles for the blue zones
     rect_core = patches.Rectangle((0, -2.26/2), 2.05, 2.26, linewidth=1, facecolor='gray')
     rect_reflector_top = patches.Rectangle((0, 2.26/2), 2.25, 0.20, linewidth=1, facecolor='black')
@@ -22,6 +22,15 @@ def get_msfr_geometry(ax, show_ticks = False):
     ax.set_xlim(0, 2.25)
     ax.set_ylim(-2.66/2, 2.66/2)
     ax.set_aspect('equal')
+
+    if not show_ticks:
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+def get_msfr_geometry(ax, show_ticks = False):
+
+    rect_blanket = patches.Rectangle((1.13, -1.88/2), 0.7, 1.88, linewidth=1, facecolor='white')
+    ax.add_patch(rect_blanket)
 
     if not show_ticks:
         ax.set_xticks([])

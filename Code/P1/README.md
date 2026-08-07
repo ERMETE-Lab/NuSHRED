@@ -1,11 +1,38 @@
-# P1: Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors
+# P1: Robust State Estimation from Partial Out-Core Measurements
 
-This folder collects the supporting notebooks of the following paper:
+Notebooks supporting:
 
-- Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2024). Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors. arXiv [Physics.Ins-Det]. Retrieved from http://arxiv.org/abs/2409.12550
+> Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors. *Progress in Nuclear Energy*, vol. 189, pp. 105928. [doi:10.1016/j.pnucene.2025.105928](https://doi.org/10.1016/j.pnucene.2025.105928)
 
-On [Zenodo](https://zenodo.org/records/15015236), the simulation data (compressed) are available.
+## Dataset
 
-In case interested to the raw data, please contact antonio.cammi@polimi.it.
+**[MSFR](https://doi.org/10.5281/zenodo.13789584)** — single-transient ULOFF reconstruction case (included in the MSFR archive).
 
-The notebook `02a_shred_uq.ipynb` is the key file supporting the paper, in which the SHRED method is applied to the MSFR-ULOFF dataset (D1).
+```bash
+uv run python Code/download_datasets.py --files MSFR
+```
+
+Data path in notebooks: `$NUSHRED_DATA_DIR/MSFR/` (default: `NuSHRED_Datasets/MSFR/`).
+
+## Requirements
+
+Base install plus the P1 optional dependency (pyforce for EIM/GEIM notebooks):
+
+```bash
+uv sync --extra p1
+```
+
+## Minimum path
+
+To reproduce the main paper result: download **MSFR**, then run **`02a_shred_uq.ipynb`** only.
+
+## Notebooks
+
+| Notebook | Description |
+| -------- | ----------- |
+| `01a_svd.ipynb` | SVD analysis of the MSFR dataset |
+| `01b_compute_measures.ipynb` | Compute out-core sensor measures |
+| `02a_shred_uq.ipynb` | **Main paper notebook** — ensemble SHRED with uncertainty quantification |
+| `02b_PDEresidual_check.ipynb` | PDE residual and mass-conservation checks |
+| `02c_eim.ipynb` | EIM sensor placement (requires pyforce) |
+| `02d_geim.ipynb` | GEIM sensor placement (requires pyforce) |

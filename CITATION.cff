@@ -1,0 +1,139 @@
+cff-version: 1.2.0
+title: "NuSHRED — Shallow Recurrent Decoder for Nuclear Reactor Applications"
+message: >-
+  If you use this software or the accompanying simulation datasets, please cite
+  the repository and the relevant publication(s) below.
+type: software
+authors:
+  - family-names: Riva
+    given-names: Stefano
+    email: stefano.riva@autodesk.com
+    affiliations:
+      - name: Autodesk Research
+      - name: Politecnico di Milano
+  - family-names: Introini
+    given-names: Carolina
+    email: carolina.introini@polimi.it
+    affiliations:
+      - name: Politecnico di Milano
+  - family-names: Cammi
+    given-names: Antonio
+    email: antonio.cammi@polimi.it
+    affiliations:
+      - name: Politecnico di Milano
+  - family-names: Kutz
+    given-names: J. Nathan
+    email: nathan.kutz@autodesk.com
+    affiliations:
+      - name: Autodesk Research
+      - name: University of Washington
+repository-code: "https://github.com/ERMETE-Lab/NuSHRED"
+url: "https://github.com/ERMETE-Lab/NuSHRED"
+license: MIT
+version: 1.0.0
+keywords:
+  - shallow recurrent decoder
+  - SHRED
+  - nuclear reactors
+  - reduced order modeling
+  - state estimation
+  - multi-fidelity learning
+
+preferred-citation:
+  type: dataset
+  title: "NuSHRED — Compressed simulation datasets for Shallow Recurrent Decoder applications to nuclear reactor systems"
+  authors:
+    - family-names: Riva
+      given-names: Stefano
+      affiliations:
+        - name: Autodesk Research
+        - name: Politecnico di Milano
+    - family-names: Introini
+      given-names: Carolina
+      affiliations:
+        - name: Politecnico di Milano
+    - family-names: Cammi
+      given-names: Antonio
+      affiliations:
+        - name: Politecnico di Milano
+    - family-names: Kutz
+      given-names: J. Nathan
+      affiliations:
+        - name: Autodesk Research
+        - name: University of Washington
+  doi: 10.5281/zenodo.13789584
+  url: "https://doi.org/10.5281/zenodo.13789584"
+
+references:
+  - type: article
+    title: "Robust State Estimation from Partial Out-Core Measurements with Shallow Recurrent Decoder for Nuclear Reactors"
+    authors:
+      - family-names: Riva
+        given-names: Stefano
+      - family-names: Introini
+        given-names: Carolina
+      - family-names: Cammi
+        given-names: Antonio
+      - family-names: Kutz
+        given-names: J. Nathan
+    doi: 10.1016/j.pnucene.2025.105928
+    journal: "Progress in Nuclear Energy"
+    year: 2025
+
+  - type: article
+    title: "Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks"
+    authors:
+      - family-names: Riva
+        given-names: Stefano
+      - family-names: Introini
+        given-names: Carolina
+      - family-names: Kutz
+        given-names: J. Nathan
+      - family-names: Cammi
+        given-names: Antonio
+    doi: 10.48550/arXiv.2503.08904
+    year: 2025
+
+  - type: article
+    title: "From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility"
+    authors:
+      - family-names: Riva
+        given-names: Stefano
+      - family-names: Missaglia
+        given-names: Alessandro
+      - family-names: Introini
+        given-names: Carolina
+      - family-names: Kutz
+        given-names: J. Nathan
+      - family-names: Cammi
+        given-names: Antonio
+    doi: 10.48550/arXiv.2503.08907
+    year: 2026
+
+  - type: article
+    title: "Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor"
+    authors:
+      - family-names: Riva
+        given-names: Stefano
+      - family-names: Introini
+        given-names: Carolina
+      - family-names: Cammi
+        given-names: Antonio
+      - family-names: Kutz
+        given-names: J. Nathan
+    doi: 10.48550/arXiv.2510.12368
+    year: 2025
+
+  - type: article
+    title: "Multi-Fidelity Learning with Shallow Recurrent Decoders for Multi-Physics Applications"
+    authors:
+      - family-names: Riva
+        given-names: Stefano
+      - family-names: Introini
+        given-names: Carolina
+      - family-names: Kutz
+        given-names: J. Nathan
+      - family-names: Cammi
+        given-names: Antonio
+    doi: 10.48550/arXiv.2606.05202
+    year: 2026
