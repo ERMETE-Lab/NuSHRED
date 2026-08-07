@@ -6,7 +6,7 @@ Notebooks supporting:
 
 ## Dataset
 
-**[MSFR](https://doi.org/10.5281/zenodo.20554287)** — single-transient ULOFF reconstruction case (included in the MSFR archive).
+**[MSFR](https://doi.org/10.5281/zenodo.13789584)** — single-transient ULOFF reconstruction case (included in the MSFR archive).
 
 ```bash
 uv run python Code/download_datasets.py --files MSFR
@@ -21,6 +21,10 @@ Base install plus the P1 optional dependency (pyforce for EIM/GEIM notebooks):
 ```bash
 uv sync --extra p1
 ```
+
+## Minimum path
+
+To reproduce the main paper result: download **MSFR**, then run **`02a_shred_uq.ipynb`** only.
 
 ## Notebooks
 

@@ -24,7 +24,12 @@ uv run python Code/download_datasets.py
 
 # specific datasets
 uv run python Code/download_datasets.py --files MSFR DYNASTY
+
+# legacy names from the first Zenodo release (D1/D2 → MSFR, D3 → DYNASTY, …)
+uv run python Code/download_datasets.py --files D1 D3
 ```
+
+Uses the [concept DOI](https://doi.org/10.5281/zenodo.13789584) (record `13789584`), which always resolves to the latest version. Legacy archive names (`D1.zip`, …) are detected automatically when the renamed zips are not yet on Zenodo.
 
 By default, archives are extracted under `NuSHRED_Datasets/` at the repo root. Override the location with the `NUSHRED_DATA_DIR` environment variable (see [`.env.example`](../.env.example)).
 

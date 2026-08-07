@@ -6,7 +6,7 @@ Notebooks supporting:
 
 ## Dataset
 
-**[TRIGA](https://doi.org/10.5281/zenodo.20554287)** — single transient from a CFD model (Introini et al., 2018), SVD-compressed.
+**[TRIGA](https://doi.org/10.5281/zenodo.13789584)** — single transient from a CFD model (Introini et al., 2018), SVD-compressed.
 
 ```bash
 uv run python Code/download_datasets.py --files TRIGA
@@ -19,6 +19,10 @@ Data path in notebooks: `$NUSHRED_DATA_DIR/TRIGA/`.
 ```bash
 uv sync
 ```
+
+## Minimum path
+
+To reproduce the main paper result: download **TRIGA**, then run **`01_shred_synthetic.ipynb`** only.
 
 ## Notebooks
 

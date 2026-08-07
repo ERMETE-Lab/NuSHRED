@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-magenta.svg)](https://www.python.org/)
-[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.20554287-blue.svg)](https://doi.org/10.5281/zenodo.20554287)
+[![Data](https://img.shields.io/badge/Datasets-10.5281/zenodo.13789584-blue.svg)](https://doi.org/10.5281/zenodo.13789584)
 [![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://www.youtube.com/watch?v=AUuGhojLiFk)
 
 This repository collects the codes regarding the application of the **Shallow REcurrent Decoder** (SHRED) method to **Nuclear Reactors** systems 🏭⚛️
@@ -30,7 +30,7 @@ This repository serves as complementary code to the following papers:
 ## 📊 Simulation Data
 The compressed simulation datasets are available on **Zenodo**:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20554287.svg)](https://doi.org/10.5281/zenodo.20554287)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13789584.svg)](https://doi.org/10.5281/zenodo.13789584)
 
 - **[MSFR]** Molten Salt Fast Reactor (MSFR) in the accidental scenario *Unprotected Loss Of Fuel Flow (ULOFF)* - Parametric Transients (includes the single-transient reconstruction case used by P1)
 - **[DYNASTY]** DYNASTY Experimental Facility - Single Transient (Reconstruction & Prediction mode) and Parametric Transients
@@ -47,6 +47,8 @@ uv run python Code/download_datasets.py --files MSFR DYNASTY
 ```
 
 See [Code/README.md](Code/README.md) for download options and dataset preparation.
+
+To cite the repository or datasets, see [`CITATION.cff`](CITATION.cff) (concept DOI: [10.5281/zenodo.13789584](https://doi.org/10.5281/zenodo.13789584)).
 
 ---
 

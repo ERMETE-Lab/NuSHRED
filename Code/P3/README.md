@@ -6,7 +6,7 @@ Notebooks supporting:
 
 ## Dataset
 
-**[DYNASTY](https://doi.org/10.5281/zenodo.20554287)** — RELAP5 model and experimental data (single transient and parametric cases).
+**[DYNASTY](https://doi.org/10.5281/zenodo.13789584)** — RELAP5 model and experimental data (single transient and parametric cases).
 
 ```bash
 uv run python Code/download_datasets.py --files DYNASTY
@@ -21,6 +21,10 @@ Simulation data shared on Zenodo are rescaled to $[0, 1]$ for open distribution.
 ```bash
 uv sync
 ```
+
+## Minimum path
+
+To reproduce the main validation result: download **DYNASTY**, then run **`02a_shred_validation_parametric.ipynb`** only. For model-only verification, run **`01_shred_verification_parametric.ipynb`**.
 
 ## Notebooks
 

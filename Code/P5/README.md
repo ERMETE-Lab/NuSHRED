@@ -14,17 +14,9 @@ Three multi-fidelity test cases map low-fidelity (LF) scalar or reduced models t
 | Reaction–diffusion–advection | `RDA`            | `uv run python Code/download_datasets.py --files RDA`            |
 | MSFR (0D DDE → OpenFOAM MP)  | `MSFR`           | `uv run python Code/download_datasets.py --files MSFR`           |
 
-[Datasets on Zenodo](https://doi.org/10.5281/zenodo.20554287)
+[Datasets on Zenodo](https://doi.org/10.5281/zenodo.13789584)
 
-The Neutronics and RDA can be also generated in-notebook with dolfinx, but this requires a separate conda environment with `dolfinx` (see below).
-```bash
-conda create -n dolf python=3.10
-conda activate dolf
-python -m pip install gmsh
-conda install -c conda-forge fenics-dolfinx=0.10 mpich pyvista ipykernel scipy
-```
-
-
+The Neutronics and RDA cases can also be generated in-notebook with `dolfinx` (see **Requirements** below). Pre-generated archives on Zenodo are sufficient to run the MF-SHRED notebooks.
 
 ## Requirements
 
@@ -44,6 +36,14 @@ conda install -c conda-forge fenics-dolfinx=0.10 mpich pyvista ipykernel scipy
 ```
 
 Neutronics solvers are adapted from the [OFELIA](https://github.com/ERMETE-Lab) repository (ERMETE Lab). The MSFR case reuses the OpenFOAM dataset from P1/P2 and builds LF trajectories in-notebook (no dolfinx required).
+
+## Minimum path
+
+| Case | Download | Notebook(s) to run |
+| ---- | -------- | ------------------- |
+| Neutronics | `LRA-neutronics` | `Neutronics/02_mf_shred.ipynb` |
+| RDA | `RDA` | `ReactionDiffAdvection/01_mf_shred.ipynb` |
+| MSFR | `MSFR` | `MSFR/01_LF_vs_HF_comparison.ipynb`, then `MSFR/02_mfshred.ipynb` |
 
 ## Layout and notebooks
 

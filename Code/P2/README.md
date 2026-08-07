@@ -6,7 +6,7 @@ Notebooks supporting:
 
 ## Dataset
 
-**[MSFR](https://doi.org/10.5281/zenodo.20554287)** — parametric ULOFF transients (same archive as P1).
+**[MSFR](https://doi.org/10.5281/zenodo.13789584)** — parametric ULOFF transients (same archive as P1).
 
 ```bash
 uv run python Code/download_datasets.py --files MSFR
@@ -19,6 +19,10 @@ Data path in notebooks: `$NUSHRED_DATA_DIR/MSFR/`.
 ```bash
 uv sync
 ```
+
+## Minimum path
+
+To reproduce the main paper result: download **MSFR**, then run **`02_shred_outcore.ipynb`** only.
 
 ## Notebooks
 
