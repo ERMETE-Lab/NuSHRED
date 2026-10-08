@@ -91,8 +91,10 @@ references:
         given-names: J. Nathan
       - family-names: Cammi
         given-names: Antonio
-    doi: 10.48550/arXiv.2503.08904
-    year: 2025
+    doi: 10.1016/j.ces.2026.125005
+    journal: "Chemical Engineering Science"
+    volume: 339
+    year: 2027
 
   - type: article
     title: "From Models To Experiments: Shallow Recurrent Decoder Networks on the DYNASTY Experimental Facility"
@@ -117,12 +119,14 @@ references:
         given-names: Stefano
       - family-names: Introini
         given-names: Carolina
-      - family-names: Cammi
-        given-names: Antonio
       - family-names: Kutz
         given-names: J. Nathan
-    doi: 10.48550/arXiv.2510.12368
-    year: 2025
+      - family-names: Cammi
+        given-names: Antonio
+    doi: 10.1016/j.ces.2026.125037
+    journal: "Chemical Engineering Science"
+    volume: 338
+    year: 2027
 
   - type: article
     title: "Multi-Fidelity Learning with Shallow Recurrent Decoders for Multi-Physics Applications"

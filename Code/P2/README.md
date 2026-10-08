@@ -2,7 +2,7 @@
 
 Notebooks supporting:
 
-> Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2025). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks. [arXiv:2503.08904](https://arxiv.org/abs/2503.08904)
+> Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2027). Towards Efficient Parametric State Estimation in Circulating Fuel Reactors with Shallow Recurrent Decoder Networks. *Chemical Engineering Science*, 339, 125005. [doi:10.1016/j.ces.2026.125005](https://doi.org/10.1016/j.ces.2026.125005) ([arXiv:2503.08904](https://arxiv.org/abs/2503.08904))
 
 ## Dataset
 

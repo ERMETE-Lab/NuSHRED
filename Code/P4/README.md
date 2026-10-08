@@ -2,7 +2,7 @@
 
 Notebooks supporting:
 
-> Riva, S., Introini, C., Cammi, A., & Kutz, J. N. (2025). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. [arXiv:2510.12368](https://arxiv.org/abs/2510.12368)
+> Riva, S., Introini, C., Kutz, J. N. & Cammi, A. (2027). Constrained Sensing and Reliable State Estimation with Shallow Recurrent Decoders on a TRIGA Mark II Reactor. *Chemical Engineering Science*, 338, 125037. [doi:10.1016/j.ces.2026.125037](https://doi.org/10.1016/j.ces.2026.125037) ([arXiv:2510.12368](https://arxiv.org/abs/2510.12368))
 
 ## Dataset
 
